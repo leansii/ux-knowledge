@@ -1,0 +1,739 @@
+# UX Patterns Index — 170 patterns
+# Format: id, p (problem), t (tags)
+# Categories: Getting Input, Navigation, Dealing with Data, Social, Miscellaneous, Onboarding, Persuasive
+
+# ── Getting Input > Forms ──
+
+- id: drag-and-drop
+  p: Users need to reorder or move items intuitively
+  t: [input, interaction, reorder]
+
+- id: StructuredFormat
+  p: Input must follow a specific format but users make mistakes
+  t: [input, validation, forms]
+
+- id: Captcha
+  p: Need to distinguish humans from bots on forms
+  t: [input, security, forms]
+
+- id: rule-builder
+  p: Users need to create complex conditional logic without coding
+  t: [input, advanced, configuration]
+
+- id: keyboard-shortcuts
+  p: Power users want faster ways to perform frequent actions
+  t: [input, efficiency, power-users]
+
+- id: InplaceEditor
+  p: Users want to edit content without navigating away
+  t: [input, inline, editing]
+
+- id: morphing-controls
+  p: UI elements need to transform based on context
+  t: [input, adaptive, interaction]
+
+- id: FillInTheBlanks
+  p: Complex input can be simplified as sentence completion
+  t: [input, simplification, forms]
+
+- id: PasswordStrengthMeter
+  p: Users create weak passwords without strength feedback
+  t: [input, security, feedback]
+
+- id: InputFeedback
+  p: Users unsure if their input is valid while typing
+  t: [input, validation, feedback]
+
+- id: WYSIWYG
+  p: Users need to format rich content without knowing markup
+  t: [input, editing, content]
+
+- id: autosave
+  p: Users lose work when they forget to save or encounter errors
+  t: [input, persistence, forms]
+
+- id: CalendarPicker
+  p: Users need to select dates accurately and quickly
+  t: [input, dates, picker]
+
+- id: LivePreview
+  p: Users want to see results of their input in real time
+  t: [input, feedback, preview]
+
+- id: expandable-input
+  p: Input field needs to accommodate varying content lengths
+  t: [input, adaptive, forms]
+
+- id: settings
+  p: Users need to customize application behavior to their needs
+  t: [input, configuration, personalization]
+
+- id: ForgivingFormat
+  p: Users enter data in various formats that should all be accepted
+  t: [input, tolerance, validation]
+
+- id: InputPrompt
+  p: Users don't know what to enter in an empty field
+  t: [input, guidance, placeholder]
+
+- id: undo
+  p: Users make mistakes and need to reverse actions easily
+  t: [input, error-recovery, safety]
+
+- id: GoodDefaults
+  p: Users abandon forms that require too many decisions
+  t: [input, efficiency, forms]
+
+# ── Getting Input > Explaining the process ──
+
+- id: Wizard
+  p: Complex tasks overwhelm users when shown all at once
+  t: [input, process, step-by-step]
+
+- id: InlineHelpBox
+  p: Users need contextual help without leaving the current view
+  t: [input, help, guidance]
+
+- id: CompletenessMeter
+  p: Users don't know how much of a process they've finished
+  t: [input, progress, motivation]
+
+- id: StepsLeft
+  p: Users want to know how many steps remain in a process
+  t: [input, progress, transparency]
+
+# ── Getting Input > Community driven ──
+
+- id: RateContent
+  p: Need to gather user opinions to surface quality content
+  t: [input, community, rating]
+
+- id: pay-to-promote
+  p: Users or businesses want higher visibility for their content
+  t: [input, commerce, promotion]
+
+- id: VoteToPromote
+  p: Community should decide which content rises to the top
+  t: [input, community, curation]
+
+- id: Wiki
+  p: Knowledge needs to be collaboratively created and maintained
+  t: [input, community, collaboration]
+
+- id: flagging-and-reporting
+  p: Users need to report inappropriate or harmful content
+  t: [input, community, moderation]
+
+# ── Navigation > Tabs ──
+
+- id: NavigationTabs
+  p: Users need to switch between top-level sections of a site
+  t: [navigation, tabs, structure]
+
+- id: ModuleTabs
+  p: Related content within a page needs to be organized into switchable views
+  t: [navigation, tabs, content]
+
+# ── Navigation > Jumping in hierarchy ──
+
+- id: Breadcrumbs
+  p: Users get lost in deep hierarchical navigation
+  t: [navigation, hierarchy, wayfinding]
+
+- id: ShortcutDropdown
+  p: Users need quick access to frequently used items
+  t: [navigation, efficiency, shortcuts]
+
+- id: FatFooter
+  p: Users who scroll to bottom need alternative navigation paths
+  t: [navigation, footer, discovery]
+
+- id: modal-windows
+  p: Users need to focus on a subtask without leaving context
+  t: [navigation, overlay, focus]
+
+- id: notifications
+  p: Users need to know about events requiring their attention
+  t: [navigation, alerts, awareness]
+
+- id: HomeLink
+  p: Users need a reliable way to return to the starting point
+  t: [navigation, home, wayfinding]
+
+# ── Navigation > Menus ──
+
+- id: VerticalDropdownMenu
+  p: Many navigation items need to be organized in limited space
+  t: [navigation, menu, vertical]
+
+- id: AccordionMenu
+  p: Deep menu hierarchy needs progressive disclosure
+  t: [navigation, menu, expandable]
+
+- id: HorizontalDropdownMenu
+  p: Primary navigation needs secondary level options on hover
+  t: [navigation, menu, horizontal]
+
+# ── Navigation > Content ──
+
+- id: AdaptableView
+  p: Users prefer different ways to view the same content (list/grid/map)
+  t: [navigation, content, view-switching]
+
+- id: ArticleList
+  p: Multiple content items need to be scannable and browsable
+  t: [navigation, content, listing]
+
+- id: Tag
+  p: Content needs flexible, non-hierarchical categorization
+  t: [navigation, content, taxonomy]
+
+- id: Pagination
+  p: Large result sets cannot be displayed on a single page
+  t: [navigation, content, paging]
+
+- id: categorization
+  p: Content needs to be organized into meaningful groups
+  t: [navigation, content, organization]
+
+- id: cards
+  p: Heterogeneous content needs uniform, scannable presentation
+  t: [navigation, content, layout]
+
+- id: Carousel
+  p: Multiple items need to share limited horizontal space
+  t: [navigation, content, slideshow]
+
+- id: ProgressiveDisclosure
+  p: Too much information at once overwhelms users
+  t: [navigation, content, simplification]
+
+- id: ContinuousScrolling
+  p: Users want to browse content without pagination interruptions
+  t: [navigation, content, infinite-scroll]
+
+- id: TagCloud
+  p: Users need to see popular topics or categories at a glance
+  t: [navigation, content, visualization]
+
+- id: Archive
+  p: Users need access to historical or older content
+  t: [navigation, content, history]
+
+- id: EventCalendar
+  p: Time-based events need visual organization by date
+  t: [navigation, content, calendar]
+
+- id: Thumbnail
+  p: Users need visual preview before committing to full content
+  t: [navigation, content, preview]
+
+- id: favorites
+  p: Users want to save and quickly access preferred items
+  t: [navigation, content, bookmarking]
+
+# ── Navigation > Gestures ──
+
+- id: pull-to-refresh
+  p: Users on mobile need an intuitive way to refresh content
+  t: [navigation, mobile, gesture]
+
+# ── Dealing with data > Tables ──
+
+- id: AlternatingRowColors
+  p: Dense table data is hard to read across long rows
+  t: [data, tables, readability]
+
+- id: TableFilter
+  p: Users need to narrow down table data to find relevant rows
+  t: [data, tables, filtering]
+
+- id: SortByColumn
+  p: Users need to reorder table data by different criteria
+  t: [data, tables, sorting]
+
+# ── Dealing with data > Formatting data ──
+
+- id: frequently-asked-questions-faq
+  p: Users have common questions that shouldn't require support contact
+  t: [data, content, self-service]
+
+- id: dashboard
+  p: Users need an overview of key metrics and status at a glance
+  t: [data, overview, monitoring]
+
+- id: CopyBox
+  p: Users need to copy text or code snippets easily
+  t: [data, utility, clipboard]
+
+# ── Dealing with data > Images ──
+
+- id: Gallery
+  p: Multiple images need organized browsing and viewing
+  t: [data, images, browsing]
+
+- id: Slideshow
+  p: Images should be viewed sequentially in a focused presentation
+  t: [data, images, presentation]
+
+- id: ImageZoom
+  p: Users need to examine image details more closely
+  t: [data, images, detail]
+
+# ── Dealing with data > Search ──
+
+- id: Autocomplete
+  p: Users want faster input and fewer typos when searching
+  t: [data, search, suggestions]
+
+- id: LiveFilter
+  p: Users want to see results update instantly as they type
+  t: [data, search, real-time]
+
+# ── Social > Reputation ──
+
+- id: testimonials
+  p: New users need social proof to trust a product or service
+  t: [social, reputation, trust]
+
+- id: leaderboard
+  p: Users are motivated by seeing their rank among peers
+  t: [social, reputation, competition]
+
+- id: CollectibleAchievements
+  p: Users enjoy collecting badges as proof of accomplishments
+  t: [social, reputation, gamification]
+
+# ── Social > Social interactions ──
+
+- id: ActivityStream
+  p: Users want to see recent actions from people they follow
+  t: [social, feed, engagement]
+
+- id: auto-sharing
+  p: User actions should optionally be shared to social platforms
+  t: [social, sharing, automation]
+
+- id: direct-messaging
+  p: Users need private communication channels within the app
+  t: [social, messaging, communication]
+
+- id: friend-list
+  p: Users want to manage and view their social connections
+  t: [social, connections, management]
+
+- id: invite-friends
+  p: Growth through existing users inviting their contacts
+  t: [social, growth, referral]
+
+- id: friend
+  p: Users want to establish mutual social connections
+  t: [social, connections, relationship]
+
+- id: follow
+  p: Users want one-way subscriptions to other users' content
+  t: [social, connections, subscription]
+
+- id: reaction
+  p: Users want lightweight ways to respond to content
+  t: [social, engagement, expression]
+
+# ── Miscellaneous > Shopping ──
+
+- id: Coupon
+  p: Users are motivated to purchase with discount incentives
+  t: [commerce, pricing, incentive]
+
+- id: PricingTable
+  p: Users need to compare plan features and prices side by side
+  t: [commerce, pricing, comparison]
+
+- id: ProductPage
+  p: Users need comprehensive product info to make purchase decisions
+  t: [commerce, product, detail]
+
+- id: ShoppingCart
+  p: Users need to collect items before completing a purchase
+  t: [commerce, checkout, collection]
+
+# ── Miscellaneous > Increasing frequency ──
+
+- id: TipAFriend
+  p: Satisfied users should be able to easily recommend the product
+  t: [social, growth, word-of-mouth]
+
+# ── Onboarding > Guidance ──
+
+- id: coachmarks
+  p: New users don't notice important UI elements
+  t: [onboarding, guidance, highlighting]
+
+- id: playthrough
+  p: Users learn best by doing rather than reading instructions
+  t: [onboarding, guidance, interactive]
+
+- id: Guided-tour
+  p: New users need a structured introduction to key features
+  t: [onboarding, guidance, walkthrough]
+
+- id: inline-hints
+  p: Users need subtle contextual tips near relevant elements
+  t: [onboarding, guidance, contextual]
+
+- id: Tour
+  p: Users need a comprehensive overview of the application
+  t: [onboarding, guidance, overview]
+
+- id: BlankSlate
+  p: Empty states confuse users and miss onboarding opportunities
+  t: [onboarding, guidance, empty-state]
+
+# ── Onboarding > Registration ──
+
+- id: LazyRegistration
+  p: Requiring signup before value drives users away
+  t: [onboarding, registration, conversion]
+
+- id: Paywall
+  p: Premium content needs gating while showing enough to convert
+  t: [onboarding, registration, monetization]
+
+- id: AccountRegistration
+  p: Users need to create accounts with minimal friction
+  t: [onboarding, registration, signup]
+
+# ── Persuasive > Cognition > Loss Aversion ──
+
+- id: Statusquo-bias
+  p: Users prefer current state and resist change
+  t: [persuasion, cognition, bias]
+
+- id: optimism-bias
+  p: Users overestimate positive outcomes for themselves
+  t: [persuasion, cognition, bias]
+
+- id: framing
+  p: How information is presented changes user decisions
+  t: [persuasion, cognition, presentation]
+
+- id: decoy-effect
+  p: Adding a third option makes a target option more attractive
+  t: [persuasion, cognition, pricing]
+
+- id: ikea-effect
+  p: Users value things more when they helped create them
+  t: [persuasion, cognition, ownership]
+
+- id: Loss-aversion
+  p: Users feel losses more strongly than equivalent gains
+  t: [persuasion, cognition, motivation]
+
+- id: sunk-cost-effect
+  p: Users continue because they've already invested time or money
+  t: [persuasion, cognition, retention]
+
+- id: Endowment-effect
+  p: Users overvalue what they already possess or have access to
+  t: [persuasion, cognition, ownership]
+
+- id: Negativity-bias
+  p: Negative experiences have disproportionate impact on users
+  t: [persuasion, cognition, risk]
+
+# ── Persuasive > Cognition > Other cognitive biases ──
+
+- id: Illusion-of-control
+  p: Users are more engaged when they feel in control of outcomes
+  t: [persuasion, cognition, engagement]
+
+- id: set-completion
+  p: Users are driven to complete a collection once started
+  t: [persuasion, cognition, motivation]
+
+- id: present-bias
+  p: Users prefer immediate rewards over larger future ones
+  t: [persuasion, cognition, timing]
+
+- id: delay-discounting
+  p: Users devalue rewards the further away they are in time
+  t: [persuasion, cognition, timing]
+
+- id: Need-for-closure
+  p: Users feel compelled to finish incomplete tasks or stories
+  t: [persuasion, cognition, completion]
+
+- id: curiosity
+  p: Information gaps drive users to explore and discover
+  t: [persuasion, cognition, engagement]
+
+- id: priming-effect
+  p: Prior exposure to stimuli influences subsequent behavior
+  t: [persuasion, cognition, influence]
+
+- id: Value-attribution
+  p: Users judge quality based on first impressions and context
+  t: [persuasion, cognition, perception]
+
+- id: Peakend-rule
+  p: Users judge experiences by peak moments and endings
+  t: [persuasion, cognition, experience]
+
+- id: temptation-bundling
+  p: Pairing desired activity with a less appealing one increases compliance
+  t: [persuasion, cognition, motivation]
+
+- id: cashless-effect
+  p: Users spend more when payment doesn't feel like real money
+  t: [persuasion, cognition, spending]
+
+- id: inaction-inertia-effect
+  p: Missing one opportunity makes users less likely to act on the next
+  t: [persuasion, cognition, decision]
+
+- id: choice-closure
+  p: Users feel more satisfied when a decision feels final
+  t: [persuasion, cognition, satisfaction]
+
+# ── Persuasive > Cognition > Scarcity ──
+
+- id: Limited-choice
+  p: Too many options lead to decision paralysis
+  t: [persuasion, scarcity, simplification]
+
+- id: Scarcity
+  p: Limited availability increases perceived value
+  t: [persuasion, scarcity, urgency]
+
+- id: Limited-duration
+  p: Time-limited offers create urgency to act now
+  t: [persuasion, scarcity, urgency]
+
+# ── Persuasive > Game mechanics > Gameplay design ──
+
+- id: Appropriate-challenge
+  p: Tasks too easy bore users; too hard frustrate them
+  t: [gamification, design, difficulty]
+
+- id: Storytelling
+  p: Users engage more deeply with narrative-driven experiences
+  t: [gamification, design, narrative]
+
+- id: Intentional-gaps
+  p: Strategic pauses keep users coming back for more
+  t: [gamification, design, retention]
+
+- id: investment-loops
+  p: Small investments that increase future value drive retention
+  t: [gamification, design, retention]
+
+- id: periodic-events
+  p: Recurring special events create anticipation and habit
+  t: [gamification, design, engagement]
+
+- id: hedonic-adaptation
+  p: Users get used to rewards, requiring novelty to maintain interest
+  t: [gamification, design, freshness]
+
+- id: Levels
+  p: Users need a sense of progression and growing mastery
+  t: [gamification, design, progression]
+
+- id: self-monitoring
+  p: Users benefit from tracking their own activity and progress
+  t: [gamification, design, analytics]
+
+# ── Persuasive > Game mechanics > Fundamentals of rewards ──
+
+- id: Variable-rewards
+  p: Unpredictable rewards are more engaging than fixed ones
+  t: [gamification, rewards, engagement]
+
+- id: Fixed-rewards
+  p: Predictable rewards for specific actions reinforce desired behavior
+  t: [gamification, rewards, reinforcement]
+
+- id: shaping
+  p: Gradually increasing task difficulty builds user skill over time
+  t: [gamification, rewards, progression]
+
+# ── Persuasive > Game mechanics > Gameplay rewards ──
+
+- id: Completion
+  p: Users are motivated by finishing 100% of a collection or task
+  t: [gamification, rewards, motivation]
+
+- id: Powers
+  p: Users enjoy gaining special abilities as rewards
+  t: [gamification, rewards, capability]
+
+- id: Unlock-features
+  p: Gating features behind progress motivates continued use
+  t: [gamification, rewards, progression]
+
+- id: delighters
+  p: Unexpected pleasant surprises increase user satisfaction
+  t: [gamification, rewards, delight]
+
+- id: Achievements
+  p: Users want recognition for accomplishing specific goals
+  t: [gamification, rewards, recognition]
+
+- id: Praise
+  p: Positive reinforcement encourages continued desired behavior
+  t: [gamification, rewards, feedback]
+
+- id: appointment-dynamic
+  p: Scheduling rewards at specific times creates habitual return
+  t: [gamification, rewards, retention]
+
+- id: Prolonged-play
+  p: Rewards for longer sessions increase time spent in app
+  t: [gamification, rewards, engagement]
+
+# ── Persuasive > Perception and memory > Attention ──
+
+- id: Tunnelling
+  p: Users need to be guided through a process without distractions
+  t: [persuasion, attention, focus]
+
+- id: Reduction
+  p: Simplifying complex tasks increases completion rates
+  t: [persuasion, attention, simplification]
+
+- id: isolation-effect
+  p: Making an element visually distinct draws attention to it
+  t: [persuasion, attention, visual]
+
+- id: picture-superiority-effect
+  p: Images are remembered better than words alone
+  t: [persuasion, attention, visual]
+
+- id: zeigarnik-effect
+  p: Incomplete tasks stay in memory longer than completed ones
+  t: [persuasion, attention, retention]
+
+# ── Persuasive > Perception and memory > Comprehension ──
+
+- id: Chunking
+  p: Large amounts of information need to be broken into digestible groups
+  t: [persuasion, comprehension, organization]
+
+- id: Anchoring
+  p: First piece of information sets the reference for all subsequent judgments
+  t: [persuasion, comprehension, pricing]
+
+- id: Serial-positioning-effect
+  p: Users remember first and last items in a list best
+  t: [persuasion, comprehension, layout]
+
+- id: Recognition-over-recall
+  p: Users find it easier to recognize than remember from scratch
+  t: [persuasion, comprehension, usability]
+
+- id: Pattern-recognition
+  p: Users understand information faster when it follows familiar patterns
+  t: [persuasion, comprehension, consistency]
+
+- id: Conceptual-metaphor
+  p: Abstract concepts are easier to grasp through familiar analogies
+  t: [persuasion, comprehension, communication]
+
+- id: Sequencing
+  p: Order of information presentation affects understanding and action
+  t: [persuasion, comprehension, flow]
+
+# ── Persuasive > Feedback > Timing ──
+
+- id: Kairos
+  p: Messages are most effective when delivered at the right moment
+  t: [persuasion, feedback, timing]
+
+- id: Feedback-loops
+  p: Users need to see the consequences of their actions to adjust behavior
+  t: [persuasion, feedback, learning]
+
+- id: Tailoring
+  p: Personalized content is more relevant and persuasive
+  t: [persuasion, feedback, personalization]
+
+- id: Trigger
+  p: Users need external cues to prompt desired actions
+  t: [persuasion, feedback, activation]
+
+- id: Simulation
+  p: Users make better decisions when they can preview outcomes
+  t: [persuasion, feedback, preview]
+
+- id: fresh-start-effect
+  p: Temporal landmarks motivate users to begin new behaviors
+  t: [persuasion, feedback, timing]
+
+# ── Persuasive > Social ──
+
+- id: Authority
+  p: Users trust and follow guidance from perceived experts
+  t: [persuasion, social, trust]
+
+- id: Liking
+  p: Users are more influenced by people or brands they like
+  t: [persuasion, social, affinity]
+
+- id: revenge
+  p: Users retaliate against perceived unfairness, even at personal cost
+  t: [persuasion, social, behavior]
+
+- id: Roleplaying
+  p: Adopting a role or persona changes user behavior and engagement
+  t: [persuasion, social, identity]
+
+- id: Self-expression
+  p: Users want to showcase their identity and uniqueness
+  t: [persuasion, social, identity]
+
+- id: Reciprocation
+  p: Users feel obligated to return favors or gifts
+  t: [persuasion, social, obligation]
+
+- id: Social-proof
+  p: Users look to others' behavior to decide their own actions
+  t: [persuasion, social, validation]
+
+- id: cognitive-dissonance
+  p: Inconsistency between beliefs and actions causes discomfort users resolve
+  t: [persuasion, social, consistency]
+
+- id: Positive-mimicry
+  p: Users adopt behaviors they see others doing successfully
+  t: [persuasion, social, imitation]
+
+- id: Commitment-consistency
+  p: Small commitments lead to larger ones through desire for consistency
+  t: [persuasion, social, conversion]
+
+- id: reputation
+  p: Users behave better when their reputation is visible
+  t: [persuasion, social, accountability]
+
+- id: halo-effect
+  p: Positive impression in one area colors perception of everything else
+  t: [persuasion, social, perception]
+
+- id: nostalgia-effect
+  p: Familiar past experiences create positive emotional associations
+  t: [persuasion, social, emotion]
+
+- id: Competition
+  p: Users perform better when competing against others
+  t: [persuasion, social, motivation]
+
+- id: autonomy
+  p: Users are more motivated when they feel in control of their choices
+  t: [persuasion, social, empowerment]
+
+- id: Status
+  p: Users seek visible markers of their rank and importance
+  t: [persuasion, social, hierarchy]
+
+- id: noble-edge-effect
+  p: Brands associated with social causes gain user goodwill
+  t: [persuasion, social, values]

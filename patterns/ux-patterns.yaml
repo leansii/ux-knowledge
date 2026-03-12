@@ -1,0 +1,2669 @@
+# UX Patterns Full Reference — 170 patterns
+# Categories: Getting Input, Navigation, Dealing with Data, Social, Miscellaneous, Onboarding, Persuasive
+
+# ═══════════════════════════════════════
+# GETTING INPUT > Forms
+# ═══════════════════════════════════════
+
+- id: drag-and-drop
+  name: Drag and Drop
+  problem: Users need to reorder items, move content between containers, or upload files in a way that feels natural and direct.
+  when_to_use:
+    - Reordering lists or priority queues
+    - Moving items between categories or columns (e.g., Kanban)
+    - File upload interfaces
+  solution: |
+    Allow users to grab elements and move them to a new position or container.
+    Provide clear visual affordances (grab handles, cursor changes).
+    Show drop targets and insertion points during drag.
+    Always provide a non-drag alternative for accessibility.
+  avoid_when:
+    - Touch devices are the primary platform (unreliable gesture)
+    - Items have a fixed, non-user-controlled order
+  related_patterns: [keyboard-shortcuts, undo]
+  tags: [input, interaction, reorder]
+
+- id: StructuredFormat
+  name: Structured Format
+  problem: Users must enter data in a specific format (phone numbers, dates, credit cards) but often get it wrong.
+  when_to_use:
+    - Phone number, credit card, or ID number fields
+    - Any field requiring a strict pattern
+  solution: |
+    Split the input into segments that match the expected format.
+    Auto-format as the user types (e.g., adding dashes to phone numbers).
+    Use input masks to guide entry.
+  avoid_when:
+    - The format varies by locale and you can't detect it
+  related_patterns: [ForgivingFormat, InputFeedback]
+  tags: [input, validation, forms]
+
+- id: Captcha
+  name: Captcha
+  problem: Bots submit forms, create fake accounts, or abuse services meant for humans.
+  when_to_use:
+    - Registration forms targeted by bots
+    - Public-facing forms without authentication
+  solution: |
+    Present a challenge that humans can solve easily but bots cannot.
+    Prefer invisible or low-friction solutions (e.g., reCAPTCHA v3).
+    Provide audio alternatives for visual captchas.
+  avoid_when:
+    - Users are already authenticated
+    - Rate limiting is sufficient
+  related_patterns: [AccountRegistration, LazyRegistration]
+  tags: [input, security, forms]
+
+- id: rule-builder
+  name: Rule Builder
+  problem: Users need to define complex conditional logic (filters, automations, access rules) without writing code.
+  when_to_use:
+    - Email filter rules
+    - Automation triggers (if X then Y)
+    - Dynamic form logic
+  solution: |
+    Provide a visual interface with condition rows: field + operator + value.
+    Support AND/OR grouping. Allow adding/removing conditions.
+    Show a human-readable summary of the rule.
+  avoid_when:
+    - Logic is simple enough for a single toggle or checkbox
+  related_patterns: [FillInTheBlanks, GoodDefaults]
+  tags: [input, advanced, configuration]
+
+- id: keyboard-shortcuts
+  name: Keyboard Shortcuts
+  problem: Frequent actions are slow when users must navigate menus or click through UI every time.
+  when_to_use:
+    - Productivity and professional tools
+    - Actions performed dozens of times per session
+  solution: |
+    Assign memorable key combinations to frequent actions.
+    Show shortcuts next to menu items. Provide a shortcut cheat sheet (? key).
+    Follow platform conventions (Cmd+S, Ctrl+Z).
+  avoid_when:
+    - Target audience is primarily mobile or touch-only
+    - Application is simple with few repeated actions
+  related_patterns: [ShortcutDropdown, undo]
+  tags: [input, efficiency, power-users]
+
+- id: InplaceEditor
+  name: Inplace Editor
+  problem: Navigating to a separate edit page creates friction for small content changes.
+  when_to_use:
+    - Editing titles, labels, or short text
+    - Content management where quick edits are frequent
+  solution: |
+    Click or double-click on content to transform it into an editable field.
+    Show save/cancel controls. Support Enter to save, Escape to cancel.
+    Indicate editability with hover effects or pencil icons.
+  avoid_when:
+    - Edits require complex validation or multi-field forms
+  related_patterns: [autosave, WYSIWYG, undo]
+  tags: [input, inline, editing]
+
+- id: morphing-controls
+  name: Morphing Controls
+  problem: Static UI elements waste space or lack context when they could adapt to the current interaction state.
+  when_to_use:
+    - A button that becomes an input field when clicked
+    - Controls that change function based on mode
+  solution: |
+    Transform UI elements smoothly between states (e.g., search icon → search bar).
+    Animate the transition to maintain spatial continuity.
+    Ensure each state is clearly distinguishable.
+  avoid_when:
+    - The transformation confuses users about available actions
+  related_patterns: [expandable-input, InplaceEditor]
+  tags: [input, adaptive, interaction]
+
+- id: FillInTheBlanks
+  name: Fill in the Blanks
+  problem: Traditional form layouts feel intimidating for complex configurations.
+  when_to_use:
+    - Rule or query builders
+    - Settings that can be expressed as a sentence
+  solution: |
+    Present the input as a natural language sentence with blanks to fill.
+    Each blank is a dropdown or inline input. "Send [email] to [group] when [event] happens."
+    This makes complex configurations feel simple and readable.
+  avoid_when:
+    - The logic is too complex for a single sentence
+  related_patterns: [rule-builder, GoodDefaults]
+  tags: [input, simplification, forms]
+
+- id: PasswordStrengthMeter
+  name: Password Strength Meter
+  problem: Users create weak, easily guessable passwords without realizing the risk.
+  when_to_use:
+    - Account registration
+    - Password change flows
+  solution: |
+    Show a visual meter (bar, color) that updates in real time as user types.
+    Rate based on length, character variety, and common password lists.
+    Provide specific tips to improve strength.
+  avoid_when:
+    - Using passwordless authentication
+  related_patterns: [InputFeedback, AccountRegistration]
+  tags: [input, security, feedback]
+
+- id: InputFeedback
+  name: Input Feedback
+  problem: Users submit forms only to discover errors, causing frustration and re-work.
+  when_to_use:
+    - Any form with validation rules
+    - Fields where format matters (email, URL, phone)
+  solution: |
+    Validate inline as the user types or on field blur.
+    Show success (green check) or error (red message) next to the field.
+    Provide specific, actionable error messages.
+  avoid_when:
+    - Validation requires server round-trip and would feel laggy
+  related_patterns: [ForgivingFormat, PasswordStrengthMeter, LivePreview]
+  tags: [input, validation, feedback]
+
+- id: WYSIWYG
+  name: WYSIWYG Editor
+  problem: Users need to create formatted content but don't know HTML or markup languages.
+  when_to_use:
+    - Blog posts, emails, documentation
+    - Any rich text content creation
+  solution: |
+    Provide a toolbar with formatting options (bold, lists, headings, links).
+    Show content exactly as it will appear. Support keyboard shortcuts for formatting.
+    Keep the toolbar simple; hide advanced options behind "more" menu.
+  avoid_when:
+    - Plain text is sufficient
+    - Target users prefer markdown
+  related_patterns: [LivePreview, InplaceEditor]
+  tags: [input, editing, content]
+
+- id: autosave
+  name: Autosave
+  problem: Users lose work when they forget to save, their browser crashes, or connection drops.
+  when_to_use:
+    - Long-form content editing
+    - Multi-step forms that take time to complete
+  solution: |
+    Save automatically at regular intervals and after each meaningful change.
+    Show a subtle save status indicator ("Saved", "Saving...").
+    Store drafts locally as fallback. Allow manual save too.
+  avoid_when:
+    - Changes should only be applied intentionally (e.g., publishing)
+  related_patterns: [undo, LivePreview]
+  tags: [input, persistence, forms]
+
+- id: CalendarPicker
+  name: Calendar Picker
+  problem: Typing dates leads to format confusion and errors.
+  when_to_use:
+    - Date selection for bookings, events, deadlines
+    - Date range selection
+  solution: |
+    Show a visual calendar widget for date selection.
+    Highlight today, selected date, and valid range.
+    Allow keyboard input as alternative. Respect locale for date format.
+  avoid_when:
+    - Date is far in the past (birth year) — use dropdowns instead
+  related_patterns: [EventCalendar, GoodDefaults]
+  tags: [input, dates, picker]
+
+- id: LivePreview
+  name: Live Preview
+  problem: Users can't visualize the final result of their input until they submit.
+  when_to_use:
+    - Template or theme customization
+    - Content editors, email composers
+    - Any configuration with visual output
+  solution: |
+    Show a real-time preview that updates as the user changes input.
+    Place preview next to or below the input area.
+    Make it clear which part of the preview corresponds to which input.
+  avoid_when:
+    - Preview computation is too expensive for real-time updates
+  related_patterns: [WYSIWYG, InputFeedback, Simulation]
+  tags: [input, feedback, preview]
+
+- id: expandable-input
+  name: Expandable Input
+  problem: Fixed-size input fields are either too small for long content or waste space for short content.
+  when_to_use:
+    - Comment fields, text areas
+    - Search bars that can handle complex queries
+  solution: |
+    Start with a compact input that grows as the user types.
+    Expand vertically for textareas, horizontally for search bars.
+    Set a reasonable maximum size to prevent layout breaking.
+  avoid_when:
+    - Input length is always predictable and short
+  related_patterns: [morphing-controls, InputPrompt]
+  tags: [input, adaptive, forms]
+
+- id: settings
+  name: Settings
+  problem: Users have different preferences and need to customize the application to work their way.
+  when_to_use:
+    - Any app with configurable behavior
+    - Notification preferences, display options, privacy controls
+  solution: |
+    Group settings by category. Use appropriate controls (toggles, dropdowns, sliders).
+    Provide sensible defaults. Show the effect of changes immediately when possible.
+    Include search for apps with many settings.
+  avoid_when:
+    - The app is simple enough that one-size-fits-all works
+  related_patterns: [GoodDefaults, ProgressiveDisclosure]
+  tags: [input, configuration, personalization]
+
+- id: ForgivingFormat
+  name: Forgiving Format
+  problem: Users enter data in varied formats (with/without dashes, spaces, country codes) and get rejected.
+  when_to_use:
+    - Phone numbers, dates, postal codes
+    - Any field where multiple input formats are valid
+  solution: |
+    Accept multiple formats and normalize them internally.
+    Parse "March 5" and "3/5" and "2025-03-05" as the same date.
+    Show the normalized format after input so users see what was understood.
+  avoid_when:
+    - Ambiguity between formats could cause errors (3/5 — March 5 or May 3?)
+  related_patterns: [StructuredFormat, InputFeedback]
+  tags: [input, tolerance, validation]
+
+- id: InputPrompt
+  name: Input Prompt
+  problem: An empty input field gives no indication of what the user should enter.
+  when_to_use:
+    - Search fields, comment boxes
+    - Any field where the expected input isn't obvious from the label alone
+  solution: |
+    Use placeholder text to show an example or hint ("e.g., Search by name or email").
+    The prompt disappears when the user starts typing.
+    Don't use placeholders as the only label — they disappear.
+  avoid_when:
+    - The field label already makes the expected input clear
+  related_patterns: [GoodDefaults, InlineHelpBox]
+  tags: [input, guidance, placeholder]
+
+- id: undo
+  name: Undo
+  problem: Users make mistakes or change their mind but feel afraid to experiment without a safety net.
+  when_to_use:
+    - Any destructive or significant action
+    - Content editing, item deletion, bulk operations
+  solution: |
+    Provide Ctrl+Z/Cmd+Z for editing. Show "Undo" toast/snackbar after actions.
+    For deletions, use soft delete with time window to undo.
+    Support multi-level undo where possible.
+  avoid_when:
+    - The action has already been communicated externally (sent email)
+  related_patterns: [autosave, drag-and-drop]
+  tags: [input, error-recovery, safety]
+
+- id: GoodDefaults
+  name: Good Defaults
+  problem: Users abandon forms that require too many decisions before they can proceed.
+  when_to_use:
+    - Settings, configuration forms
+    - Any form where common choices are predictable
+  solution: |
+    Pre-fill fields with the most common or recommended values.
+    Base defaults on user context (locale, device, past behavior).
+    Let users change defaults easily but make the common path effortless.
+  avoid_when:
+    - There's no clearly "common" choice and wrong defaults cause problems
+  related_patterns: [settings, ForgivingFormat, FillInTheBlanks]
+  tags: [input, efficiency, forms]
+
+# ═══════════════════════════════════════
+# GETTING INPUT > Explaining the process
+# ═══════════════════════════════════════
+
+- id: Wizard
+  name: Wizard
+  problem: A complex task with many inputs overwhelms users when presented all at once.
+  when_to_use:
+    - Multi-step registration or setup flows
+    - Complex configurations (e.g., deployment, integrations)
+  solution: |
+    Break the process into sequential steps, one screen per step.
+    Show progress and allow navigation between completed steps.
+    Validate each step before allowing progression.
+  avoid_when:
+    - The task has fewer than 3 logical steps
+    - Users need to see all options simultaneously to make decisions
+  related_patterns: [StepsLeft, CompletenessMeter, ProgressiveDisclosure]
+  tags: [input, process, step-by-step]
+
+- id: InlineHelpBox
+  name: Inline Help Box
+  problem: Users need help understanding a feature without leaving the page or opening docs.
+  when_to_use:
+    - Complex form fields
+    - Features that are used infrequently
+  solution: |
+    Show a small help icon (?) or info icon next to the element.
+    On click/hover, display a tooltip or expandable box with explanation.
+    Keep help text concise and action-oriented.
+  avoid_when:
+    - The UI is self-explanatory
+    - Help content would be distracting for most users
+  related_patterns: [inline-hints, InputPrompt]
+  tags: [input, help, guidance]
+
+- id: CompletenessMeter
+  name: Completeness Meter
+  problem: Users don't know how much of their profile or task they've completed.
+  when_to_use:
+    - Profile completion
+    - Multi-section forms or applications
+  solution: |
+    Show a progress bar or percentage indicating how much is done.
+    Highlight what sections are incomplete. Make incomplete items clickable.
+    Celebrate reaching 100%.
+  avoid_when:
+    - Completion is optional and pressuring users would feel manipulative
+  related_patterns: [StepsLeft, Wizard, Completion]
+  tags: [input, progress, motivation]
+
+- id: StepsLeft
+  name: Steps Left
+  problem: Users want to know how long a process will take before committing.
+  when_to_use:
+    - Checkout flows, wizards, onboarding
+    - Any multi-step process
+  solution: |
+    Show "Step 2 of 5" or a step indicator at the top of each step.
+    Optionally label each step. Show completed steps differently from future ones.
+  avoid_when:
+    - The number of steps varies dynamically
+  related_patterns: [Wizard, CompletenessMeter]
+  tags: [input, progress, transparency]
+
+# ═══════════════════════════════════════
+# GETTING INPUT > Community driven
+# ═══════════════════════════════════════
+
+- id: RateContent
+  name: Rate Content
+  problem: Without user ratings, there's no way to surface the best content or products.
+  when_to_use:
+    - Product reviews, content quality assessment
+    - Any marketplace or content platform
+  solution: |
+    Provide star rating (1-5) or thumbs up/down. Show average rating and count.
+    Allow optional text review alongside rating.
+    Display aggregate ratings prominently.
+  avoid_when:
+    - Content is not comparable or subjective rating would be harmful
+  related_patterns: [reaction, testimonials, Social-proof]
+  tags: [input, community, rating]
+
+- id: pay-to-promote
+  name: Pay to Promote
+  problem: Users or businesses want their content to be seen by more people.
+  when_to_use:
+    - Marketplaces, classifieds
+    - Content platforms with organic + paid reach
+  solution: |
+    Offer paid promotion that boosts visibility (featured listing, top of results).
+    Clearly label promoted content to maintain trust.
+    Ensure organic content still has a path to visibility.
+  avoid_when:
+    - It would undermine trust in content quality
+  related_patterns: [PricingTable, VoteToPromote]
+  tags: [input, commerce, promotion]
+
+- id: VoteToPromote
+  name: Vote to Promote
+  problem: Platform needs a democratic way to surface the best content.
+  when_to_use:
+    - Forums, Q&A sites, news aggregators
+    - Feature request boards
+  solution: |
+    Let users upvote/downvote content. Rank items by vote score.
+    Show vote count. Optionally weight votes by user reputation.
+  avoid_when:
+    - Small community where voting would be meaningless
+    - Content curation should be editorial, not democratic
+  related_patterns: [RateContent, reaction, leaderboard]
+  tags: [input, community, curation]
+
+- id: Wiki
+  name: Wiki
+  problem: Knowledge needs to be created, maintained, and updated by the community, not a single author.
+  when_to_use:
+    - Documentation, knowledge bases
+    - Community-driven reference content
+  solution: |
+    Allow any authorized user to edit pages. Track revision history.
+    Support rollback to previous versions. Show recent changes feed.
+    Use discussion pages for content disputes.
+  avoid_when:
+    - Content accuracy is critical and must be expert-reviewed
+  related_patterns: [WYSIWYG, undo, ActivityStream]
+  tags: [input, community, collaboration]
+
+- id: flagging-and-reporting
+  name: Flagging and Reporting
+  problem: User-generated content platforms need a way for the community to identify harmful content.
+  when_to_use:
+    - Any platform with user-generated content
+    - Comments, reviews, profiles
+  solution: |
+    Provide a "Report" or "Flag" option on every piece of content.
+    Offer categorized reasons (spam, harassment, misinformation).
+    Acknowledge the report and explain the review process.
+  avoid_when:
+    - All content is moderated before publishing
+  related_patterns: [RateContent, VoteToPromote]
+  tags: [input, community, moderation]
+
+# ═══════════════════════════════════════
+# NAVIGATION > Tabs
+# ═══════════════════════════════════════
+
+- id: NavigationTabs
+  name: Navigation Tabs
+  problem: Users need to move between major sections of an application quickly.
+  when_to_use:
+    - 3-7 top-level sections of a website or app
+    - Sections are of equal importance
+  solution: |
+    Place tabs horizontally at the top of the content area.
+    Highlight the active tab. Tabs should have short, clear labels.
+    Content changes immediately on tab click without page reload.
+  avoid_when:
+    - More than 7 sections (use a menu instead)
+    - Sections are hierarchically nested
+  related_patterns: [ModuleTabs, Breadcrumbs]
+  tags: [navigation, tabs, structure]
+
+- id: ModuleTabs
+  name: Module Tabs
+  problem: A page section contains related but different views of the same data.
+  when_to_use:
+    - Product page with description/specs/reviews tabs
+    - Dashboard widget with different time ranges
+  solution: |
+    Place tabs within the content module they control.
+    Visual style should be distinct from navigation tabs.
+    Content below tabs changes; surrounding page stays the same.
+  avoid_when:
+    - Users need to see multiple views simultaneously
+  related_patterns: [NavigationTabs, AdaptableView]
+  tags: [navigation, tabs, content]
+
+# ═══════════════════════════════════════
+# NAVIGATION > Jumping in hierarchy
+# ═══════════════════════════════════════
+
+- id: Breadcrumbs
+  name: Breadcrumbs
+  problem: Users navigating deep hierarchies lose track of where they are and how to go back.
+  when_to_use:
+    - Sites with 3+ levels of hierarchy
+    - E-commerce categories, documentation, file systems
+  solution: |
+    Show the path from home to current page as clickable links.
+    Separate levels with > or /. Current page is the last item, non-clickable.
+    Place at top of content area, below main navigation.
+  avoid_when:
+    - Flat site structure with no hierarchy
+  related_patterns: [HomeLink, NavigationTabs]
+  tags: [navigation, hierarchy, wayfinding]
+
+- id: ShortcutDropdown
+  name: Shortcut Dropdown
+  problem: Users repeatedly navigate to the same few items from a large collection.
+  when_to_use:
+    - Project or workspace switchers
+    - Recent or favorite item access
+  solution: |
+    Provide a dropdown with recently accessed or favorited items.
+    Include a search/filter within the dropdown.
+    Place in a persistent location (header, sidebar).
+  avoid_when:
+    - Users don't have a pattern of revisiting items
+  related_patterns: [favorites, keyboard-shortcuts]
+  tags: [navigation, efficiency, shortcuts]
+
+- id: FatFooter
+  name: Fat Footer
+  problem: Users who scroll to the bottom of a page need navigation options and useful links.
+  when_to_use:
+    - Marketing sites, content-heavy sites
+    - Sites with many sections not all visible in main nav
+  solution: |
+    Include organized links to key sections, about, contact, legal, social media.
+    Group links into columns by category. Include newsletter signup or search.
+  avoid_when:
+    - Single-page applications where footer isn't reachable
+  related_patterns: [HomeLink, categorization]
+  tags: [navigation, footer, discovery]
+
+- id: modal-windows
+  name: Modal Windows
+  problem: A subtask needs user attention without losing the context of the parent page.
+  when_to_use:
+    - Confirmations, alerts, quick data entry
+    - Content preview, login prompts
+  solution: |
+    Overlay a focused dialog on top of a dimmed background.
+    Include a clear close button and Escape key to dismiss.
+    Keep modals focused on a single task. Don't stack modals.
+  avoid_when:
+    - Content is long or complex (use a new page instead)
+    - Mobile — modals are harder to interact with on small screens
+  related_patterns: [Tunnelling, ProgressiveDisclosure]
+  tags: [navigation, overlay, focus]
+
+- id: notifications
+  name: Notifications
+  problem: Users miss important events, updates, or actions that require their attention.
+  when_to_use:
+    - New messages, mentions, or activity
+    - Status changes, errors, completed tasks
+  solution: |
+    Show a badge count on a bell icon. Group notifications by type.
+    Mark as read/unread. Allow notification preferences per type.
+    Use push notifications sparingly for high-priority items only.
+  avoid_when:
+    - Notifications are too frequent and would cause fatigue
+  related_patterns: [ActivityStream, Trigger, Kairos]
+  tags: [navigation, alerts, awareness]
+
+- id: HomeLink
+  name: Home Link
+  problem: Users need a reliable, consistent way to start over or return to the main page.
+  when_to_use:
+    - Every application and website
+  solution: |
+    Make the logo or site name in the top-left clickable, linking to home.
+    This is a universal convention — users expect it.
+  avoid_when:
+    - Single-page app with no concept of "home"
+  related_patterns: [Breadcrumbs, NavigationTabs]
+  tags: [navigation, home, wayfinding]
+
+# ═══════════════════════════════════════
+# NAVIGATION > Menus
+# ═══════════════════════════════════════
+
+- id: VerticalDropdownMenu
+  name: Vertical Dropdown Menu
+  problem: Many navigation items need to be organized but there isn't space to show them all.
+  when_to_use:
+    - Sidebar navigation with sub-items
+    - Mobile navigation menus
+  solution: |
+    Show top-level items vertically. Expand sub-items on click or hover.
+    Highlight current section. Support collapsing for space.
+  avoid_when:
+    - Few items that can all be shown at once
+  related_patterns: [AccordionMenu, HorizontalDropdownMenu]
+  tags: [navigation, menu, vertical]
+
+- id: AccordionMenu
+  name: Accordion Menu
+  problem: A deep menu hierarchy needs to fit in a constrained sidebar or mobile view.
+  when_to_use:
+    - Documentation sites, settings panels
+    - FAQs with expandable answers
+  solution: |
+    Show categories as expandable/collapsible sections.
+    Only one section (or a few) open at a time.
+    Indicate expand/collapse state with chevron or +/- icon.
+  avoid_when:
+    - Users need to see multiple sections open simultaneously
+  related_patterns: [VerticalDropdownMenu, ProgressiveDisclosure]
+  tags: [navigation, menu, expandable]
+
+- id: HorizontalDropdownMenu
+  name: Horizontal Dropdown Menu
+  problem: Primary navigation needs to expose secondary options without cluttering the top bar.
+  when_to_use:
+    - Main navigation bars with sub-categories
+    - E-commerce mega menus
+  solution: |
+    Show primary items horizontally. On hover/click, show a dropdown with sub-items.
+    For many sub-items, use mega menu (multi-column dropdown).
+    Ensure dropdowns are keyboard accessible.
+  avoid_when:
+    - Mobile viewports (use hamburger + vertical menu instead)
+  related_patterns: [VerticalDropdownMenu, NavigationTabs]
+  tags: [navigation, menu, horizontal]
+
+# ═══════════════════════════════════════
+# NAVIGATION > Content
+# ═══════════════════════════════════════
+
+- id: AdaptableView
+  name: Adaptable View
+  problem: Different users prefer different ways of viewing the same content (list, grid, map, table).
+  when_to_use:
+    - File managers, product catalogs
+    - Search results, real estate listings
+  solution: |
+    Provide view toggle buttons (grid/list/map icons).
+    Remember the user's preference. Ensure all views show the same data.
+  avoid_when:
+    - Only one view makes sense for the content type
+  related_patterns: [cards, ArticleList, Thumbnail]
+  tags: [navigation, content, view-switching]
+
+- id: ArticleList
+  name: Article List
+  problem: Multiple content items need to be scannable so users can find what interests them.
+  when_to_use:
+    - Blog posts, news feeds, search results
+    - Any list of content with title + summary
+  solution: |
+    Show title, excerpt, metadata (date, author, category) for each item.
+    Include a thumbnail if visual. Consistent layout per item.
+    Most recent or relevant items first.
+  avoid_when:
+    - Content is better represented as cards or a grid
+  related_patterns: [Pagination, ContinuousScrolling, cards]
+  tags: [navigation, content, listing]
+
+- id: Tag
+  name: Tag
+  problem: Content doesn't fit neatly into a single category and needs flexible cross-cutting labels.
+  when_to_use:
+    - Blog posts, products, bookmarks
+    - Any content that belongs to multiple categories
+  solution: |
+    Allow multiple tags per item. Make tags clickable to filter content.
+    Show tags as colored pills or labels. Support user-created tags if appropriate.
+  avoid_when:
+    - Strict single-category taxonomy is required
+  related_patterns: [TagCloud, categorization, LiveFilter]
+  tags: [navigation, content, taxonomy]
+
+- id: Pagination
+  name: Pagination
+  problem: Large datasets can't be loaded or displayed all at once without performance issues.
+  when_to_use:
+    - Search results, product listings
+    - Any dataset over ~20-50 items
+  solution: |
+    Show page numbers with previous/next buttons.
+    Display current page and total count. Allow jumping to first/last page.
+    Show items per page selector if appropriate.
+  avoid_when:
+    - Users benefit from continuous browsing (use infinite scroll)
+    - Dataset is small enough to show entirely
+  related_patterns: [ContinuousScrolling, TableFilter, SortByColumn]
+  tags: [navigation, content, paging]
+
+- id: categorization
+  name: Categorization
+  problem: Content needs hierarchical organization so users can browse by topic.
+  when_to_use:
+    - E-commerce product taxonomy
+    - Documentation, knowledge bases
+  solution: |
+    Define a clear category hierarchy. Allow browsing by category.
+    Show category counts. Use faceted navigation for complex taxonomies.
+  avoid_when:
+    - Content is better served by search than browsing
+  related_patterns: [Tag, Breadcrumbs, AccordionMenu]
+  tags: [navigation, content, organization]
+
+- id: cards
+  name: Cards
+  problem: Heterogeneous content items need a consistent, scannable visual container.
+  when_to_use:
+    - Dashboards, product catalogs, social feeds
+    - Any collection of items with image + text
+  solution: |
+    Use a rectangular container with image, title, and key metadata.
+    Consistent card size in a grid layout. Include clear call-to-action.
+    Cards should be clickable to see full content.
+  avoid_when:
+    - Content is purely textual with no visual element
+    - Dense data that's better as a table
+  related_patterns: [AdaptableView, Thumbnail, ArticleList]
+  tags: [navigation, content, layout]
+
+- id: Carousel
+  name: Carousel
+  problem: Multiple featured items need to share limited horizontal space.
+  when_to_use:
+    - Hero banners, featured products
+    - Image galleries in constrained space
+  solution: |
+    Show one or a few items at a time with left/right navigation arrows.
+    Include dots or indicators showing position and total count.
+    Allow swiping on touch devices. Don't auto-advance too quickly.
+  avoid_when:
+    - Critical content that all users must see (most users don't advance past first slide)
+    - When space allows showing all items at once
+  related_patterns: [Slideshow, Gallery, cards]
+  tags: [navigation, content, slideshow]
+
+- id: ProgressiveDisclosure
+  name: Progressive Disclosure
+  problem: Showing all options and information at once overwhelms users.
+  when_to_use:
+    - Complex forms with optional advanced fields
+    - Settings pages, documentation
+  solution: |
+    Show essential content first. Hide details behind "Show more", "Advanced", or expandable sections.
+    Reveal complexity gradually as users need it.
+  avoid_when:
+    - All information is equally important
+    - Hiding content would cause users to miss critical options
+  related_patterns: [AccordionMenu, Wizard, settings]
+  tags: [navigation, content, simplification]
+
+- id: ContinuousScrolling
+  name: Continuous Scrolling
+  problem: Pagination interrupts the browsing flow for content users consume sequentially.
+  when_to_use:
+    - Social feeds, image galleries
+    - Content discovery where browsing is the goal
+  solution: |
+    Load more content automatically as the user scrolls near the bottom.
+    Show a loading indicator. Provide a way to jump back to top.
+    Ensure back button returns to the same scroll position.
+  avoid_when:
+    - Users need to reach the footer
+    - Users need to bookmark or share a specific page of results
+  related_patterns: [Pagination, pull-to-refresh, ArticleList]
+  tags: [navigation, content, infinite-scroll]
+
+- id: TagCloud
+  name: Tag Cloud
+  problem: Users want to see the most popular topics or categories at a glance.
+  when_to_use:
+    - Blog sidebars, content discovery pages
+    - Visualizing topic distribution
+  solution: |
+    Display tags with size proportional to their frequency.
+    Most popular tags appear largest. Tags are clickable to filter content.
+  avoid_when:
+    - Tags are equally distributed (no meaningful size difference)
+    - The visualization looks cluttered with too many tags
+  related_patterns: [Tag, categorization]
+  tags: [navigation, content, visualization]
+
+- id: Archive
+  name: Archive
+  problem: Older content still has value but shouldn't clutter current views.
+  when_to_use:
+    - Blogs, news sites, documentation versions
+    - Any content with temporal relevance
+  solution: |
+    Organize old content by date (month/year). Provide an archive page.
+    Link from sidebar or footer. Keep archive searchable.
+  avoid_when:
+    - All content is equally current (no temporal dimension)
+  related_patterns: [Pagination, categorization, ArticleList]
+  tags: [navigation, content, history]
+
+- id: EventCalendar
+  name: Event Calendar
+  problem: Time-based events are hard to understand in a simple list format.
+  when_to_use:
+    - Scheduling, bookings, event listings
+    - Project timelines
+  solution: |
+    Display events on a visual calendar (month, week, or day view).
+    Color-code event types. Support drag to reschedule.
+    Allow switching between views.
+  avoid_when:
+    - Few events that work fine as a simple list
+  related_patterns: [CalendarPicker, cards]
+  tags: [navigation, content, calendar]
+
+- id: Thumbnail
+  name: Thumbnail
+  problem: Users need to preview content visually before deciding to open it.
+  when_to_use:
+    - Image galleries, video listings
+    - File managers, product catalogs
+  solution: |
+    Show a small preview image for each item. Consistent thumbnail size.
+    On hover, show additional info or a slightly larger preview.
+    Click to open full content.
+  avoid_when:
+    - Content has no meaningful visual representation
+  related_patterns: [Gallery, cards, AdaptableView]
+  tags: [navigation, content, preview]
+
+- id: favorites
+  name: Favorites
+  problem: Users want quick access to items they use or visit frequently.
+  when_to_use:
+    - Any app with many items where users have personal preferences
+    - Bookmarking content, pinning tools
+  solution: |
+    Provide a star/heart icon to mark favorites. Show favorites in a dedicated section.
+    Allow reordering favorites. Sync across devices.
+  avoid_when:
+    - Collection is too small for favorites to add value
+  related_patterns: [ShortcutDropdown, Tag]
+  tags: [navigation, content, bookmarking]
+
+# ═══════════════════════════════════════
+# NAVIGATION > Gestures
+# ═══════════════════════════════════════
+
+- id: pull-to-refresh
+  name: Pull to Refresh
+  problem: Mobile users need an intuitive way to check for new content.
+  when_to_use:
+    - Mobile feeds, inboxes, lists
+    - Any mobile content that updates frequently
+  solution: |
+    Pull down from the top of a scrollable list to trigger a refresh.
+    Show a spinner or animation during refresh.
+    Provide visual feedback that new content was loaded.
+  avoid_when:
+    - Desktop-only applications
+    - Content updates automatically via real-time connections
+  related_patterns: [ContinuousScrolling, ActivityStream]
+  tags: [navigation, mobile, gesture]
+
+# ═══════════════════════════════════════
+# DEALING WITH DATA > Tables
+# ═══════════════════════════════════════
+
+- id: AlternatingRowColors
+  name: Alternating Row Colors
+  problem: Dense table data is hard to read across long rows — eyes lose track of which row they're on.
+  when_to_use:
+    - Any data table with more than a few rows
+    - Wide tables where eyes must track across many columns
+  solution: |
+    Alternate background color between even and odd rows (zebra striping).
+    Use subtle color difference — not distracting. Also highlight row on hover.
+  avoid_when:
+    - Tables with very few rows
+    - Row hover highlighting is sufficient
+  related_patterns: [TableFilter, SortByColumn]
+  tags: [data, tables, readability]
+
+- id: TableFilter
+  name: Table Filter
+  problem: Users need to narrow down a large table to find specific rows.
+  when_to_use:
+    - Data tables with more than ~20 rows
+    - Admin panels, reports, logs
+  solution: |
+    Provide filter controls above or beside the table.
+    Support filtering by column values, date ranges, status.
+    Show active filters and allow clearing them. Update results immediately.
+  avoid_when:
+    - Table is small enough to scan visually
+  related_patterns: [LiveFilter, SortByColumn, Pagination]
+  tags: [data, tables, filtering]
+
+- id: SortByColumn
+  name: Sort by Column
+  problem: Users need to reorder data to find highest, lowest, newest, or alphabetically first items.
+  when_to_use:
+    - Any data table with comparable values
+  solution: |
+    Make column headers clickable to sort. Show sort direction arrow.
+    Toggle between ascending/descending on repeated clicks.
+    Default to the most useful sort order.
+  avoid_when:
+    - Data has a fixed meaningful order that shouldn't change
+  related_patterns: [TableFilter, AlternatingRowColors]
+  tags: [data, tables, sorting]
+
+# ═══════════════════════════════════════
+# DEALING WITH DATA > Formatting data
+# ═══════════════════════════════════════
+
+- id: frequently-asked-questions-faq
+  name: FAQ
+  problem: Users repeatedly ask the same questions, overloading support channels.
+  when_to_use:
+    - Product pages, support sections
+    - Any service with common user questions
+  solution: |
+    List common questions with expandable answers (accordion style).
+    Group by topic. Include a search function for longer FAQs.
+    Keep answers concise and link to detailed docs when needed.
+  avoid_when:
+    - Questions are too diverse to categorize
+  related_patterns: [AccordionMenu, ProgressiveDisclosure, InlineHelpBox]
+  tags: [data, content, self-service]
+
+- id: dashboard
+  name: Dashboard
+  problem: Users need to monitor multiple metrics and statuses without navigating to separate pages.
+  when_to_use:
+    - Admin panels, analytics, monitoring
+    - Any role that requires a status overview
+  solution: |
+    Show key metrics as cards or widgets on a single page.
+    Use charts, numbers, and status indicators. Allow customization of which widgets to show.
+    Prioritize the most actionable information.
+  avoid_when:
+    - Only one or two metrics matter
+  related_patterns: [cards, self-monitoring, AdaptableView]
+  tags: [data, overview, monitoring]
+
+- id: CopyBox
+  name: Copy Box
+  problem: Users need to copy text, code, or URLs but selecting text manually is error-prone.
+  when_to_use:
+    - API keys, embed codes, share links
+    - Code snippets, terminal commands
+  solution: |
+    Display the content in a distinct box with a "Copy" button.
+    Show confirmation on click ("Copied!"). Auto-select all text on click.
+  avoid_when:
+    - Content is dynamic and copying a snapshot would be misleading
+  related_patterns: [InputPrompt]
+  tags: [data, utility, clipboard]
+
+# ═══════════════════════════════════════
+# DEALING WITH DATA > Images
+# ═══════════════════════════════════════
+
+- id: Gallery
+  name: Gallery
+  problem: Users need to browse and view multiple images in an organized way.
+  when_to_use:
+    - Photo collections, product images
+    - Portfolio sites, media libraries
+  solution: |
+    Show thumbnails in a grid. Click to open full-size in a lightbox.
+    Support keyboard navigation between images.
+    Show image count and current position.
+  avoid_when:
+    - Only 1-2 images (just show them inline)
+  related_patterns: [Thumbnail, Slideshow, ImageZoom]
+  tags: [data, images, browsing]
+
+- id: Slideshow
+  name: Slideshow
+  problem: Images need to be presented sequentially in a focused, immersive way.
+  when_to_use:
+    - Presentations, photo stories
+    - Product image sequences
+  solution: |
+    Show one image at a time, full-size. Provide prev/next controls.
+    Optional auto-advance with pause on interaction.
+    Show progress indicator (dots or count).
+  avoid_when:
+    - Users need to compare images side by side
+  related_patterns: [Carousel, Gallery]
+  tags: [data, images, presentation]
+
+- id: ImageZoom
+  name: Image Zoom
+  problem: Users need to see fine details in an image that aren't visible at normal size.
+  when_to_use:
+    - Product images (fabric texture, fine print)
+    - Maps, diagrams, artwork
+  solution: |
+    Hover to show a magnified area. Or click to open a zoomable full-screen view.
+    Support pinch-to-zoom on touch devices.
+    Indicate zoom is available (magnifying glass cursor).
+  avoid_when:
+    - Images don't contain meaningful detail at higher resolution
+  related_patterns: [Gallery, Thumbnail]
+  tags: [data, images, detail]
+
+# ═══════════════════════════════════════
+# DEALING WITH DATA > Search
+# ═══════════════════════════════════════
+
+- id: Autocomplete
+  name: Autocomplete
+  problem: Users make typos, don't know exact terms, or type slowly when searching.
+  when_to_use:
+    - Search bars, address fields
+    - Any input with a known set of possible values
+  solution: |
+    Show suggestions as the user types, updating with each keystroke.
+    Highlight the matching portion. Support keyboard navigation of suggestions.
+    Show recently searched terms or popular queries.
+  avoid_when:
+    - The possible value space is too large for meaningful suggestions
+  related_patterns: [LiveFilter, InputPrompt]
+  tags: [data, search, suggestions]
+
+- id: LiveFilter
+  name: Live Filter
+  problem: Users want instant feedback as they narrow down a set of results.
+  when_to_use:
+    - Filtering lists, catalogs, or directories
+    - Settings search, command palettes
+  solution: |
+    Update visible results in real-time as the user types or adjusts filters.
+    No submit button needed. Show result count. Debounce for performance.
+  avoid_when:
+    - Filtering requires expensive server queries
+  related_patterns: [Autocomplete, TableFilter, SortByColumn]
+  tags: [data, search, real-time]
+
+# ═══════════════════════════════════════
+# SOCIAL > Reputation
+# ═══════════════════════════════════════
+
+- id: testimonials
+  name: Testimonials
+  problem: Potential users or customers need reassurance from others who've already used the product.
+  when_to_use:
+    - Landing pages, product pages
+    - Service offerings, case studies
+  solution: |
+    Show quotes from real users with their name, photo, and role/company.
+    Include specific results or metrics when possible.
+    Rotate testimonials or show a curated selection.
+  avoid_when:
+    - Product is brand new with no real users yet (fake testimonials destroy trust)
+  related_patterns: [Social-proof, Authority, RateContent]
+  tags: [social, reputation, trust]
+
+- id: leaderboard
+  name: Leaderboard
+  problem: Users lack motivation without knowing how they compare to peers.
+  when_to_use:
+    - Fitness apps, learning platforms
+    - Sales teams, gamified products
+  solution: |
+    Rank users by score, activity, or achievement. Show top N and the user's position.
+    Update regularly. Consider showing relative position among friends too.
+  avoid_when:
+    - Competition would discourage lower-ranked users
+    - Activity being ranked shouldn't be gamified
+  related_patterns: [CollectibleAchievements, Levels, Competition, Status]
+  tags: [social, reputation, competition]
+
+- id: CollectibleAchievements
+  name: Collectible Achievements
+  problem: Users want tangible proof of their accomplishments within the platform.
+  when_to_use:
+    - Learning platforms, community forums
+    - Any app where users build skills or contribute over time
+  solution: |
+    Award badges or trophies for specific accomplishments.
+    Display them on user profiles. Create a collection page showing all possible achievements.
+    Include rare achievements for extra motivation.
+  avoid_when:
+    - Achievements would feel patronizing to the target audience
+  related_patterns: [Achievements, leaderboard, Levels, reputation]
+  tags: [social, reputation, gamification]
+
+# ═══════════════════════════════════════
+# SOCIAL > Social interactions
+# ═══════════════════════════════════════
+
+- id: ActivityStream
+  name: Activity Stream
+  problem: Users want to stay updated on what people in their network are doing.
+  when_to_use:
+    - Social networks, team collaboration tools
+    - Any app with user-generated activity
+  solution: |
+    Show a chronological or algorithmic feed of actions.
+    Include actor, action, object, and timestamp. Allow filtering by type.
+    Support infinite scroll for browsing.
+  avoid_when:
+    - Privacy concerns make activity sharing inappropriate
+  related_patterns: [follow, notifications, ContinuousScrolling]
+  tags: [social, feed, engagement]
+
+- id: auto-sharing
+  name: Auto-Sharing
+  problem: Manually sharing every action to social platforms is tedious.
+  when_to_use:
+    - Fitness achievements, music listening
+    - Any activity users want to broadcast
+  solution: |
+    Offer opt-in automatic sharing to connected social accounts.
+    Let users control what gets shared and where.
+    Always allow disabling. Never share without explicit consent.
+  avoid_when:
+    - Activity is private or sensitive by default
+  related_patterns: [ActivityStream, invite-friends, Self-expression]
+  tags: [social, sharing, automation]
+
+- id: direct-messaging
+  name: Direct Messaging
+  problem: Users need to communicate privately within the platform.
+  when_to_use:
+    - Social networks, marketplaces
+    - Team tools, dating apps
+  solution: |
+    Provide inbox with conversations. Support text, images, and file attachments.
+    Show read/delivered status. Push notifications for new messages.
+    Allow blocking and reporting.
+  avoid_when:
+    - Communication should be public (forums, Q&A)
+  related_patterns: [friend-list, notifications, friend]
+  tags: [social, messaging, communication]
+
+- id: friend-list
+  name: Friend List
+  problem: Users need to see and manage their social connections in one place.
+  when_to_use:
+    - Social networks, gaming platforms
+    - Any app with mutual connections
+  solution: |
+    Show a list of connections with name, avatar, and online status.
+    Allow searching, categorizing (groups/lists), and removing friends.
+    Show mutual friends on profiles.
+  avoid_when:
+    - Connections are one-way only (use following list instead)
+  related_patterns: [friend, follow, direct-messaging]
+  tags: [social, connections, management]
+
+- id: invite-friends
+  name: Invite Friends
+  problem: Organic growth through existing users bringing in their contacts.
+  when_to_use:
+    - Any app that benefits from network effects
+    - Referral programs
+  solution: |
+    Provide easy sharing via email, SMS, social media, or link.
+    Offer incentives for both inviter and invitee.
+    Show status of invitations. Don't be spammy.
+  avoid_when:
+    - The app doesn't benefit from social connections
+  related_patterns: [TipAFriend, Reciprocation, Social-proof]
+  tags: [social, growth, referral]
+
+- id: friend
+  name: Friend
+  problem: Users want to establish mutual connections with people they know.
+  when_to_use:
+    - Social networks, gaming platforms
+    - Any community where bidirectional relationships matter
+  solution: |
+    Send friend request → other user accepts/declines.
+    Show pending requests. Suggest friends based on mutual connections.
+    Allow unfriending without notification.
+  avoid_when:
+    - One-way following makes more sense (content creators, celebrities)
+  related_patterns: [follow, friend-list, invite-friends]
+  tags: [social, connections, relationship]
+
+- id: follow
+  name: Follow
+  problem: Users want to subscribe to another user's content without requiring mutual agreement.
+  when_to_use:
+    - Content platforms, news, creator-audience relationships
+    - Any platform where relationships are asymmetric
+  solution: |
+    One-click follow button. Show follower/following counts.
+    Feed shows content from followed users.
+    Allow unfollowing easily.
+  avoid_when:
+    - Relationships should be mutual (use friend pattern)
+  related_patterns: [friend, ActivityStream, friend-list]
+  tags: [social, connections, subscription]
+
+- id: reaction
+  name: Reaction
+  problem: Users want to respond to content quickly without writing a comment.
+  when_to_use:
+    - Social feeds, messaging, comments
+    - Any content where lightweight feedback adds value
+  solution: |
+    Provide emoji reactions (like, love, laugh, etc.) on content items.
+    Show reaction counts and which users reacted.
+    One-click to react, click again to remove.
+  avoid_when:
+    - Content requires thoughtful, written responses
+  related_patterns: [RateContent, VoteToPromote, Liking]
+  tags: [social, engagement, expression]
+
+# ═══════════════════════════════════════
+# MISCELLANEOUS > Shopping
+# ═══════════════════════════════════════
+
+- id: Coupon
+  name: Coupon
+  problem: Users need incentives to complete a purchase or try a product.
+  when_to_use:
+    - E-commerce checkout
+    - First-time user promotions
+    - Re-engagement campaigns
+  solution: |
+    Provide a coupon code field at checkout. Auto-apply if user arrived via promo link.
+    Show the discount amount clearly. Display savings on order summary.
+  avoid_when:
+    - Coupons would devalue the brand
+    - Margins don't support discounting
+  related_patterns: [ShoppingCart, Scarcity, Limited-duration]
+  tags: [commerce, pricing, incentive]
+
+- id: PricingTable
+  name: Pricing Table
+  problem: Users need to compare plans or packages to choose the right one.
+  when_to_use:
+    - SaaS pricing pages
+    - Service tiers, subscription plans
+  solution: |
+    Show plans side by side with features in rows. Highlight the recommended plan.
+    Use checkmarks for included features. Show price prominently.
+    Include a clear CTA for each plan.
+  avoid_when:
+    - Single pricing option with no tiers
+  related_patterns: [Anchoring, decoy-effect, framing]
+  tags: [commerce, pricing, comparison]
+
+- id: ProductPage
+  name: Product Page
+  problem: Users need comprehensive information to make a confident purchase decision.
+  when_to_use:
+    - E-commerce, marketplace listings
+    - Any item that requires evaluation before action
+  solution: |
+    Show high-quality images with zoom. Include title, price, description, specs.
+    Add reviews/ratings, availability, shipping info.
+    Clear add-to-cart CTA above the fold.
+  avoid_when:
+    - Product is low-cost impulse buy that doesn't need detailed info
+  related_patterns: [Gallery, ImageZoom, RateContent, ShoppingCart]
+  tags: [commerce, product, detail]
+
+- id: ShoppingCart
+  name: Shopping Cart
+  problem: Users want to collect multiple items before committing to a purchase.
+  when_to_use:
+    - Any e-commerce site
+    - Digital stores, subscription add-ons
+  solution: |
+    Persistent cart icon with item count badge. Allow adding/removing items.
+    Show itemized list with quantities, prices, and total.
+    Clear path to checkout. Save cart across sessions.
+  avoid_when:
+    - Only single-item purchases are possible
+  related_patterns: [ProductPage, Coupon, Wizard]
+  tags: [commerce, checkout, collection]
+
+# ═══════════════════════════════════════
+# MISCELLANEOUS > Increasing frequency
+# ═══════════════════════════════════════
+
+- id: TipAFriend
+  name: Tip a Friend
+  problem: Satisfied users don't have an easy way to recommend the product to others.
+  when_to_use:
+    - After a positive experience (completed purchase, achievement)
+    - Content that is inherently shareable
+  solution: |
+    Show share buttons at key moments of delight.
+    Pre-fill a message the user can customize. Support email, social, and link sharing.
+    Offer incentives for successful referrals.
+  avoid_when:
+    - The moment isn't a natural sharing opportunity
+  related_patterns: [invite-friends, Social-proof, Reciprocation]
+  tags: [social, growth, word-of-mouth]
+
+# ═══════════════════════════════════════
+# ONBOARDING > Guidance
+# ═══════════════════════════════════════
+
+- id: coachmarks
+  name: Coachmarks
+  problem: New users don't notice important UI elements in a complex interface.
+  when_to_use:
+    - First-time experience in feature-rich apps
+    - After significant UI changes
+  solution: |
+    Highlight specific UI elements with a spotlight effect and explanatory tooltip.
+    Show one coachmark at a time. Allow skipping the entire sequence.
+    Don't show again after dismissal.
+  avoid_when:
+    - The interface is intuitive enough without guidance
+    - User is returning and already familiar
+  related_patterns: [Guided-tour, inline-hints, Tour]
+  tags: [onboarding, guidance, highlighting]
+
+- id: playthrough
+  name: Playthrough
+  problem: Users learn best by doing, not by reading instructions.
+  when_to_use:
+    - Complex tools where hands-on practice is essential
+    - Games, creative tools
+  solution: |
+    Guide users through real tasks with real data (or sample data).
+    Provide step-by-step prompts that require the user to perform each action.
+    Celebrate completion.
+  avoid_when:
+    - Tasks are self-explanatory
+    - Forced walkthroughs would annoy experienced users
+  related_patterns: [Guided-tour, coachmarks, Appropriate-challenge]
+  tags: [onboarding, guidance, interactive]
+
+- id: Guided-tour
+  name: Guided Tour
+  problem: New users need a structured introduction to key features and workflow.
+  when_to_use:
+    - First login to a complex application
+    - New major feature launches
+  solution: |
+    Walk users through 5-8 key features with tooltips pointing to real UI elements.
+    Allow skipping and resuming later. Progress indicator.
+    Focus on value, not features — show what they can accomplish.
+  avoid_when:
+    - App is simple with 1-2 main actions
+    - Would interrupt urgent tasks
+  related_patterns: [coachmarks, Tour, StepsLeft]
+  tags: [onboarding, guidance, walkthrough]
+
+- id: inline-hints
+  name: Inline Hints
+  problem: Users need contextual tips but a full tour would be too intrusive.
+  when_to_use:
+    - Subtle feature discovery
+    - Tips that are relevant only when the user reaches a specific area
+  solution: |
+    Show small, non-intrusive hints near relevant elements.
+    Use info icons, subtle banners, or pulsing dots.
+    Dismissible and don't repeat once dismissed.
+  avoid_when:
+    - Too many hints would clutter the interface
+  related_patterns: [InlineHelpBox, coachmarks, BlankSlate]
+  tags: [onboarding, guidance, contextual]
+
+- id: Tour
+  name: Tour
+  problem: Users arriving at a complex app need a comprehensive overview before diving in.
+  when_to_use:
+    - Enterprise software with many features
+    - Apps with unconventional interaction models
+  solution: |
+    Offer an optional tour on first visit. Cover main areas and key actions.
+    Use a combination of modal overlays and highlighted elements.
+    Let users restart the tour from help menu.
+  avoid_when:
+    - Users come with strong intent and a tour would delay them
+  related_patterns: [Guided-tour, coachmarks, BlankSlate]
+  tags: [onboarding, guidance, overview]
+
+- id: BlankSlate
+  name: Blank Slate
+  problem: Empty states (no data yet) confuse new users and miss an opportunity to guide them.
+  when_to_use:
+    - First-time empty dashboards, lists, or feeds
+    - After clearing all items
+  solution: |
+    Replace empty states with helpful content: illustration, explanation, and a primary CTA.
+    "No projects yet. Create your first project to get started."
+    Include sample data option if applicable.
+  avoid_when:
+    - Empty state is temporary and data will appear shortly
+  related_patterns: [Guided-tour, inline-hints, GoodDefaults]
+  tags: [onboarding, guidance, empty-state]
+
+# ═══════════════════════════════════════
+# ONBOARDING > Registration
+# ═══════════════════════════════════════
+
+- id: LazyRegistration
+  name: Lazy Registration
+  problem: Forcing users to register before they see value causes most to leave.
+  when_to_use:
+    - Any product where core value can be experienced without an account
+    - E-commerce (allow browsing and adding to cart before signup)
+  solution: |
+    Let users explore and use the product first. Only require registration when needed
+    (to save, purchase, or interact). Transfer any work done before registration to the new account.
+  avoid_when:
+    - Personalization is required from the start
+    - Security requires authentication before any access
+  related_patterns: [AccountRegistration, Paywall, GoodDefaults]
+  tags: [onboarding, registration, conversion]
+
+- id: Paywall
+  name: Paywall
+  problem: Premium content needs to be gated while showing enough to convince users to pay.
+  when_to_use:
+    - Content subscriptions (news, courses, tools)
+    - Freemium models
+  solution: |
+    Show a preview (headline, first paragraph, blurred content).
+    Clear messaging about what's behind the paywall and its value.
+    Multiple payment options. Easy upgrade path.
+  avoid_when:
+    - Content should be freely accessible
+    - Preview doesn't convey enough value to convert
+  related_patterns: [LazyRegistration, PricingTable, framing]
+  tags: [onboarding, registration, monetization]
+
+- id: AccountRegistration
+  name: Account Registration
+  problem: Users need to create accounts but complex registration forms drive them away.
+  when_to_use:
+    - Any product requiring user accounts
+  solution: |
+    Minimize required fields (email + password, or social login).
+    Allow progressive profile completion later. Show password requirements upfront.
+    Send confirmation email. Provide SSO options.
+  avoid_when:
+    - Anonymous usage is sufficient
+  related_patterns: [LazyRegistration, PasswordStrengthMeter, GoodDefaults, Wizard]
+  tags: [onboarding, registration, signup]
+
+# ═══════════════════════════════════════
+# PERSUASIVE > Cognition > Loss Aversion
+# ═══════════════════════════════════════
+
+- id: Statusquo-bias
+  name: Status Quo Bias
+  problem: Users prefer their current state and resist changes, even beneficial ones.
+  when_to_use:
+    - Default settings and opt-outs
+    - Subscription renewals
+  solution: |
+    Make the desired option the default. Frame changes as enhancements to current state,
+    not replacements. Provide easy rollback to reduce perceived risk of change.
+  avoid_when:
+    - Exploiting inertia to trap users in unwanted states
+  related_patterns: [GoodDefaults, Loss-aversion, Endowment-effect]
+  tags: [persuasion, cognition, bias]
+
+- id: optimism-bias
+  name: Optimism Bias
+  problem: Users overestimate positive outcomes, which can be leveraged for engagement or managed for realistic expectations.
+  when_to_use:
+    - Goal-setting features
+    - Free trial conversions
+  solution: |
+    Show success stories and potential outcomes to inspire action.
+    But also set realistic expectations to prevent disappointment.
+    Use to encourage starting (people believe they'll succeed).
+  avoid_when:
+    - It would lead to harmful over-commitment
+  related_patterns: [framing, Social-proof, testimonials]
+  tags: [persuasion, cognition, bias]
+
+- id: framing
+  name: Framing
+  problem: The same information presented differently leads to different user decisions.
+  when_to_use:
+    - Pricing pages (save 20% vs. pay $X less)
+    - Feature comparisons, risk communication
+  solution: |
+    Frame information to emphasize the desired perspective.
+    "95% uptime" vs "only 18 days of downtime per year."
+    Use positive framing for benefits, loss framing for urgency.
+  avoid_when:
+    - Framing would be deceptive or misleading
+  related_patterns: [Anchoring, decoy-effect, Loss-aversion]
+  tags: [persuasion, cognition, presentation]
+
+- id: decoy-effect
+  name: Decoy Effect
+  problem: Users struggle to choose between two options and often defer the decision.
+  when_to_use:
+    - Pricing tiers where you want to steer toward a specific plan
+    - Product comparisons
+  solution: |
+    Introduce a third "decoy" option that is clearly inferior to the target option
+    but similar in price. This makes the target option look like the best deal.
+  avoid_when:
+    - Users would feel manipulated if they noticed
+    - Only two genuine options exist
+  related_patterns: [PricingTable, Anchoring, framing]
+  tags: [persuasion, cognition, pricing]
+
+- id: ikea-effect
+  name: IKEA Effect
+  problem: Users don't value things they received for free as much as things they helped create.
+  when_to_use:
+    - Onboarding with customization steps
+    - User-generated content, profile building
+  solution: |
+    Let users invest effort in customizing their experience early on.
+    Building their own dashboard, choosing preferences, creating content.
+    This investment increases perceived value and retention.
+  avoid_when:
+    - Customization adds unnecessary friction
+  related_patterns: [settings, sunk-cost-effect, investment-loops]
+  tags: [persuasion, cognition, ownership]
+
+- id: Loss-aversion
+  name: Loss Aversion
+  problem: Users are more motivated by avoiding losses than achieving equivalent gains.
+  when_to_use:
+    - Trial expiration warnings
+    - Feature removal notifications
+    - Cart abandonment recovery
+  solution: |
+    Frame messages around what users will lose, not what they'll gain.
+    "Don't lose your saved progress" > "Sign up to save progress."
+    Show what will be lost if they don't act.
+  avoid_when:
+    - Creating undue anxiety or dark patterns
+  related_patterns: [Scarcity, framing, Endowment-effect, sunk-cost-effect]
+  tags: [persuasion, cognition, motivation]
+
+- id: sunk-cost-effect
+  name: Sunk Cost Effect
+  problem: Users are more likely to continue when they've already invested time or money.
+  when_to_use:
+    - Showing accumulated progress or history
+    - Subscription retention
+  solution: |
+    Remind users of their existing investment: "You've completed 80% of the course."
+    Show accumulated achievements, saved data, or streak history.
+    Make the cost of leaving feel real.
+  avoid_when:
+    - Trapping users who genuinely want to leave
+  related_patterns: [Loss-aversion, CompletenessMeter, investment-loops]
+  tags: [persuasion, cognition, retention]
+
+- id: Endowment-effect
+  name: Endowment Effect
+  problem: Users value things more once they feel ownership over them.
+  when_to_use:
+    - Free trials that give full access
+    - "Your" dashboard, "Your" playlist
+  solution: |
+    Use possessive language ("your workspace", "your collection").
+    Give users something to lose (full trial access vs. limited).
+    Let users customize and invest in their space before asking to pay.
+  avoid_when:
+    - Users haven't had enough time to feel ownership
+  related_patterns: [Loss-aversion, ikea-effect, Statusquo-bias]
+  tags: [persuasion, cognition, ownership]
+
+- id: Negativity-bias
+  name: Negativity Bias
+  problem: Negative experiences have disproportionate impact — one bad moment outweighs many good ones.
+  when_to_use:
+    - Error handling and recovery
+    - Customer support interactions
+  solution: |
+    Prioritize eliminating negative experiences over adding positive ones.
+    Handle errors gracefully. Apologize and compensate for failures.
+    Ensure the worst-case experience is still acceptable.
+  avoid_when:
+    - Over-investing in edge cases at the expense of the core experience
+  related_patterns: [Peakend-rule, undo, InputFeedback]
+  tags: [persuasion, cognition, risk]
+
+# ═══════════════════════════════════════
+# PERSUASIVE > Cognition > Other cognitive biases
+# ═══════════════════════════════════════
+
+- id: Illusion-of-control
+  name: Illusion of Control
+  problem: Users are more engaged and satisfied when they feel they influence outcomes.
+  when_to_use:
+    - Customization options, even if cosmetic
+    - Selection processes where any choice works
+  solution: |
+    Give users choices and controls, even when the outcome is similar.
+    Let them feel they're driving the experience.
+    Choosing your own avatar, picking a theme, selecting notification preferences.
+  avoid_when:
+    - The illusion would be deceptive about important outcomes
+  related_patterns: [autonomy, settings, Self-expression]
+  tags: [persuasion, cognition, engagement]
+
+- id: set-completion
+  name: Set Completion
+  problem: Users feel compelled to complete a collection once they've started it.
+  when_to_use:
+    - Achievement systems, profile completion
+    - Course modules, collection features
+  solution: |
+    Show what's been collected and what's missing. Use visual progress.
+    "You've earned 7 of 10 badges." Make the remaining items visible and achievable.
+  avoid_when:
+    - The set is too large to realistically complete
+  related_patterns: [CompletenessMeter, Completion, CollectibleAchievements]
+  tags: [persuasion, cognition, motivation]
+
+- id: present-bias
+  name: Present Bias
+  problem: Users prefer immediate rewards over larger future benefits.
+  when_to_use:
+    - Onboarding (show immediate value)
+    - Loyalty programs (instant small reward > delayed big one)
+  solution: |
+    Provide immediate gratification for desired actions.
+    Front-load value: give something useful right away.
+    For future benefits, make them feel more concrete and immediate.
+  avoid_when:
+    - Encouraging impulsive decisions that users will regret
+  related_patterns: [delay-discounting, Variable-rewards, Trigger]
+  tags: [persuasion, cognition, timing]
+
+- id: delay-discounting
+  name: Delay Discounting
+  problem: Users devalue rewards the further away they are, making long-term engagement hard.
+  when_to_use:
+    - Subscription benefits, loyalty programs
+    - Savings or investment features
+  solution: |
+    Break long-term rewards into closer milestones.
+    Show progress toward the next milestone, not just the final goal.
+    Visualize the reward to make it feel more tangible.
+  avoid_when:
+    - Short-term thinking would be harmful to the user
+  related_patterns: [present-bias, Levels, CompletenessMeter]
+  tags: [persuasion, cognition, timing]
+
+- id: Need-for-closure
+  name: Need for Closure
+  problem: Users feel uncomfortable with incomplete tasks or open-ended situations.
+  when_to_use:
+    - Progress bars, task lists
+    - Story-driven experiences
+  solution: |
+    Show clear completion states. Use progress indicators.
+    Provide satisfying endings to flows. "All done!" confirmation screens.
+    Leverage the desire to close open loops.
+  avoid_when:
+    - Open-endedness is a feature (creative tools, exploration)
+  related_patterns: [zeigarnik-effect, Completion, set-completion]
+  tags: [persuasion, cognition, completion]
+
+- id: curiosity
+  name: Curiosity
+  problem: Users need a reason to explore deeper into the product or content.
+  when_to_use:
+    - Content teasers, previews
+    - Feature discovery, onboarding
+  solution: |
+    Create information gaps that users want to fill. "See what's inside."
+    Show partial content that intrigues. Use mystery rewards.
+    Reveal information progressively.
+  avoid_when:
+    - Clickbait that disappoints when the answer is revealed
+  related_patterns: [ProgressiveDisclosure, Paywall, Intentional-gaps]
+  tags: [persuasion, cognition, engagement]
+
+- id: priming-effect
+  name: Priming Effect
+  problem: Exposure to certain stimuli unconsciously influences subsequent behavior and perception.
+  when_to_use:
+    - Landing page messaging before pricing
+    - Setting expectations before a task
+  solution: |
+    Prime users with positive associations before key decisions.
+    Show success stories before signup. Display premium imagery before pricing.
+    Use words that evoke the desired emotional state.
+  avoid_when:
+    - Manipulating decisions users would regret
+  related_patterns: [framing, Anchoring, Authority]
+  tags: [persuasion, cognition, influence]
+
+- id: Value-attribution
+  name: Value Attribution
+  problem: Users judge quality based on superficial cues and first impressions.
+  when_to_use:
+    - Product presentation, landing pages
+    - Pricing and packaging
+  solution: |
+    Invest in visual quality and polish — it signals overall quality.
+    Premium packaging, beautiful design, and professional copy increase perceived value.
+    First impressions set the tone for the entire experience.
+  avoid_when:
+    - Substance doesn't match the polished surface
+  related_patterns: [halo-effect, Authority, framing]
+  tags: [persuasion, cognition, perception]
+
+- id: Peakend-rule
+  name: Peak-End Rule
+  problem: Users judge an experience by its most intense moment and its ending, not the average.
+  when_to_use:
+    - Designing checkout flows, onboarding, support interactions
+    - Any experience with a clear beginning and end
+  solution: |
+    Create a positive peak moment (delight, surprise, achievement).
+    End on a high note (celebration, thank you, clear next step).
+    Fix the worst moments — they disproportionately define the memory.
+  avoid_when:
+    - Optimizing peaks at the expense of consistent quality
+  related_patterns: [delighters, Praise, Negativity-bias]
+  tags: [persuasion, cognition, experience]
+
+- id: temptation-bundling
+  name: Temptation Bundling
+  problem: Users avoid beneficial but unpleasant tasks.
+  when_to_use:
+    - Exercise apps, learning platforms
+    - Task management, compliance training
+  solution: |
+    Pair the undesirable task with something enjoyable.
+    "Complete this module to unlock a bonus episode."
+    Make the reward only available when doing the target task.
+  avoid_when:
+    - The pairing feels forced or unnatural
+  related_patterns: [Variable-rewards, Achievements, Unlock-features]
+  tags: [persuasion, cognition, motivation]
+
+- id: cashless-effect
+  name: Cashless Effect
+  problem: Digital payments don't trigger the same pain of spending as physical cash.
+  when_to_use:
+    - In-app purchases, subscription pricing
+    - E-commerce checkout optimization
+  solution: |
+    Offer stored payment methods, one-click purchase, virtual currencies.
+    Reduce friction at the point of payment.
+    But also: provide spending summaries to help users stay informed.
+  avoid_when:
+    - Users should be making more deliberate spending decisions
+  related_patterns: [ShoppingCart, Coupon, present-bias]
+  tags: [persuasion, cognition, spending]
+
+- id: inaction-inertia-effect
+  name: Inaction Inertia Effect
+  problem: Users who miss one opportunity become less likely to act on the next, similar one.
+  when_to_use:
+    - Re-engagement campaigns
+    - Expired offer follow-ups
+  solution: |
+    After a missed opportunity, offer a different framing rather than the same offer.
+    "Here's something new" rather than "Last chance at the deal you missed."
+    Avoid reminding users of what they missed.
+  avoid_when:
+    - The same offer is genuinely still available
+  related_patterns: [fresh-start-effect, framing, Scarcity]
+  tags: [persuasion, cognition, decision]
+
+- id: choice-closure
+  name: Choice Closure
+  problem: Users who keep second-guessing a decision experience less satisfaction.
+  when_to_use:
+    - Post-purchase confirmation
+    - After completing a selection process
+  solution: |
+    Provide clear confirmation that the choice is made. "Great choice!"
+    Remove or reduce visibility of alternatives after selection.
+    Reinforce the decision with positive feedback.
+  avoid_when:
+    - Users genuinely need to compare alternatives after selecting
+  related_patterns: [Commitment-consistency, Praise, Need-for-closure]
+  tags: [persuasion, cognition, satisfaction]
+
+# ═══════════════════════════════════════
+# PERSUASIVE > Cognition > Scarcity
+# ═══════════════════════════════════════
+
+- id: Limited-choice
+  name: Limited Choice
+  problem: Too many options cause decision paralysis and lower satisfaction with the final choice.
+  when_to_use:
+    - Product offerings, plan selection
+    - Menu design, feature sets
+  solution: |
+    Limit options to 3-5 choices. Curate the best options.
+    If more options exist, use progressive disclosure or recommendations.
+    Highlight the recommended or most popular choice.
+  avoid_when:
+    - Users are experts who need full selection
+  related_patterns: [GoodDefaults, Reduction, PricingTable]
+  tags: [persuasion, scarcity, simplification]
+
+- id: Scarcity
+  name: Scarcity
+  problem: Users don't feel urgency when supply seems unlimited.
+  when_to_use:
+    - E-commerce, ticket sales, bookings
+    - Limited edition products
+  solution: |
+    Show remaining stock: "Only 3 left in stock."
+    Display how many others are viewing the same item.
+    Use honest scarcity — fake scarcity destroys trust.
+  avoid_when:
+    - Supply is genuinely unlimited
+    - Artificial scarcity would feel manipulative
+  related_patterns: [Limited-duration, Loss-aversion, Social-proof]
+  tags: [persuasion, scarcity, urgency]
+
+- id: Limited-duration
+  name: Limited Duration
+  problem: Without time pressure, users postpone decisions indefinitely.
+  when_to_use:
+    - Sales, promotions, special offers
+    - Early-bird pricing, flash sales
+  solution: |
+    Show a countdown timer or expiration date. "Sale ends in 2h 15m."
+    Be honest about the deadline. After expiration, actually remove the offer.
+  avoid_when:
+    - The deadline is fake and users will discover it
+    - Pressure would harm the user's decision quality
+  related_patterns: [Scarcity, Loss-aversion, appointment-dynamic]
+  tags: [persuasion, scarcity, urgency]
+
+# ═══════════════════════════════════════
+# PERSUASIVE > Game mechanics > Gameplay design
+# ═══════════════════════════════════════
+
+- id: Appropriate-challenge
+  name: Appropriate Challenge
+  problem: Tasks that are too easy are boring; too hard causes frustration and dropout.
+  when_to_use:
+    - Learning platforms, games
+    - Progressive skill-building features
+  solution: |
+    Match difficulty to user skill level. Start easy, increase gradually.
+    Provide hints when users struggle. Allow difficulty adjustment.
+    The sweet spot is "challenging but achievable."
+  avoid_when:
+    - The task difficulty is inherently fixed
+  related_patterns: [shaping, Levels, Feedback-loops]
+  tags: [gamification, design, difficulty]
+
+- id: Storytelling
+  name: Storytelling
+  problem: Users disengage from purely functional interfaces without emotional connection.
+  when_to_use:
+    - Onboarding, marketing, brand building
+    - Learning experiences, games
+  solution: |
+    Frame the user's journey as a story with a beginning, challenges, and resolution.
+    Use characters, narrative arcs, and emotional hooks.
+    Make the user the protagonist.
+  avoid_when:
+    - Users want efficiency, not entertainment
+  related_patterns: [Roleplaying, Guided-tour, Conceptual-metaphor]
+  tags: [gamification, design, narrative]
+
+- id: Intentional-gaps
+  name: Intentional Gaps
+  problem: Continuous access leads to saturation and declining engagement over time.
+  when_to_use:
+    - Content drip (one lesson per day)
+    - Game energy systems
+  solution: |
+    Create natural breaks that make users anticipate the next interaction.
+    Release content on a schedule. Use "come back tomorrow" mechanics.
+    Build anticipation through previews of what's next.
+  avoid_when:
+    - Users need immediate access to complete time-sensitive tasks
+  related_patterns: [periodic-events, appointment-dynamic, hedonic-adaptation]
+  tags: [gamification, design, retention]
+
+- id: investment-loops
+  name: Investment Loops
+  problem: Users leave because they haven't built enough value to feel committed.
+  when_to_use:
+    - Social platforms, productivity tools
+    - Any product where user-generated data increases value
+  solution: |
+    Design actions that store value: adding contacts, creating content, customizing settings.
+    Each investment makes the product more valuable and harder to leave.
+    Show users their accumulated value.
+  avoid_when:
+    - Creating artificial lock-in that harms users
+  related_patterns: [ikea-effect, sunk-cost-effect, Endowment-effect]
+  tags: [gamification, design, retention]
+
+- id: periodic-events
+  name: Periodic Events
+  problem: Routine use becomes monotonous without novelty.
+  when_to_use:
+    - Games (seasonal events), marketplaces (sales events)
+    - Community platforms (weekly challenges)
+  solution: |
+    Create recurring special events with unique rewards or content.
+    Build anticipation with announcements. Vary the events to prevent predictability.
+  avoid_when:
+    - Events create FOMO that alienates casual users
+  related_patterns: [Intentional-gaps, appointment-dynamic, hedonic-adaptation]
+  tags: [gamification, design, engagement]
+
+- id: hedonic-adaptation
+  name: Hedonic Adaptation
+  problem: Users get used to rewards and features, requiring novelty to maintain the same level of excitement.
+  when_to_use:
+    - Long-term engagement design
+    - Reward system planning
+  solution: |
+    Vary rewards over time. Introduce new features and content regularly.
+    Create surprise moments. Escalate the scale or quality of rewards periodically.
+  avoid_when:
+    - Stability is more important than novelty
+  related_patterns: [Variable-rewards, periodic-events, delighters]
+  tags: [gamification, design, freshness]
+
+- id: Levels
+  name: Levels
+  problem: Users need a sense of progression and growing mastery.
+  when_to_use:
+    - Learning platforms, loyalty programs
+    - Community engagement, professional tools
+  solution: |
+    Define clear levels with names and visual indicators (Level 1: Beginner).
+    Show progress toward next level. Unlock perks at each level.
+    Make early levels quick to achieve, later levels require more effort.
+  avoid_when:
+    - Levels feel patronizing for the audience
+  related_patterns: [Achievements, shaping, Unlock-features, leaderboard]
+  tags: [gamification, design, progression]
+
+- id: self-monitoring
+  name: Self-Monitoring
+  problem: Users can't improve what they can't measure.
+  when_to_use:
+    - Fitness, finance, learning apps
+    - Productivity tools, habit trackers
+  solution: |
+    Show personal stats, streaks, and trends over time.
+    Provide charts and summaries. Allow setting personal goals.
+    Weekly/monthly reports of activity.
+  avoid_when:
+    - Tracking would create anxiety rather than motivation
+  related_patterns: [dashboard, Feedback-loops, Levels]
+  tags: [gamification, design, analytics]
+
+# ═══════════════════════════════════════
+# PERSUASIVE > Game mechanics > Fundamentals of rewards
+# ═══════════════════════════════════════
+
+- id: Variable-rewards
+  name: Variable Rewards
+  problem: Predictable rewards become boring and lose motivational power.
+  when_to_use:
+    - Social feeds (what will I see next?)
+    - Loot boxes, mystery rewards, randomized content
+  solution: |
+    Vary the type, size, and timing of rewards unpredictably.
+    Slot-machine mechanics: sometimes small, sometimes big.
+    Keep the core experience rewarding even without the variable element.
+  avoid_when:
+    - Users need predictable outcomes (financial, safety)
+    - Variable rewards feel like gambling for vulnerable users
+  related_patterns: [Fixed-rewards, hedonic-adaptation, delighters]
+  tags: [gamification, rewards, engagement]
+
+- id: Fixed-rewards
+  name: Fixed Rewards
+  problem: Users need to know what they'll get for completing an action to feel motivated.
+  when_to_use:
+    - Referral programs, loyalty points
+    - Course completion certificates
+  solution: |
+    Clearly communicate the reward before the action. "Complete X, get Y."
+    Deliver the reward immediately upon completion.
+    Make the reward proportional to the effort.
+  avoid_when:
+    - Predictability makes the experience boring
+  related_patterns: [Variable-rewards, Achievements, Completion]
+  tags: [gamification, rewards, reinforcement]
+
+- id: shaping
+  name: Shaping
+  problem: Users give up on difficult tasks if they're not eased into them gradually.
+  when_to_use:
+    - Learning progressions, onboarding
+    - Skill-based features
+  solution: |
+    Start with very simple tasks that guarantee success.
+    Gradually increase complexity as users build confidence and skill.
+    Reward early steps generously, then taper as competence grows.
+  avoid_when:
+    - Users are already skilled and would find baby steps frustrating
+  related_patterns: [Appropriate-challenge, Levels, Guided-tour]
+  tags: [gamification, rewards, progression]
+
+# ═══════════════════════════════════════
+# PERSUASIVE > Game mechanics > Gameplay rewards
+# ═══════════════════════════════════════
+
+- id: Completion
+  name: Completion
+  problem: Users want the satisfaction of finishing something 100%.
+  when_to_use:
+    - Course progress, collection systems
+    - Profile completion, achievement sets
+  solution: |
+    Show clear progress toward 100%. Make the final items achievable but require effort.
+    Celebrate 100% completion with a special reward or badge.
+    List what's remaining to encourage final push.
+  avoid_when:
+    - 100% completion requires unreasonable effort
+  related_patterns: [set-completion, CompletenessMeter, Need-for-closure]
+  tags: [gamification, rewards, motivation]
+
+- id: Powers
+  name: Powers
+  problem: Users want to feel special abilities or enhanced capabilities as they progress.
+  when_to_use:
+    - Games, community platforms (moderator powers)
+    - Premium features unlocked by engagement
+  solution: |
+    Grant special abilities at milestones: edit others' posts, access exclusive areas, custom formatting.
+    Make powers visible to others. Increase powers with continued engagement.
+  avoid_when:
+    - Powers create unfair advantage that harms others
+  related_patterns: [Unlock-features, Levels, Status]
+  tags: [gamification, rewards, capability]
+
+- id: Unlock-features
+  name: Unlock Features
+  problem: Showing everything at once overwhelms new users and provides no growth incentive.
+  when_to_use:
+    - Feature-rich applications
+    - Games, learning platforms
+  solution: |
+    Start with core features. Unlock advanced features as users demonstrate readiness.
+    Show locked features with "Unlock at Level X" or "Complete Y to access."
+    This creates a sense of discovery and earned progression.
+  avoid_when:
+    - Users need all features from the start to accomplish their task
+  related_patterns: [Levels, Powers, ProgressiveDisclosure]
+  tags: [gamification, rewards, progression]
+
+- id: delighters
+  name: Delighters
+  problem: Routine interactions lack emotional moments that users remember and share.
+  when_to_use:
+    - Milestone achievements, Easter eggs
+    - Loading screens, empty states
+  solution: |
+    Add unexpected pleasant surprises: animations, sounds, humorous messages.
+    Celebrate user achievements with confetti or special effects.
+    Keep them rare enough to remain surprising.
+  avoid_when:
+    - Users are in a serious or urgent context
+  related_patterns: [Peakend-rule, Variable-rewards, Praise]
+  tags: [gamification, rewards, delight]
+
+- id: Achievements
+  name: Achievements
+  problem: Users want recognition and visible proof of their accomplishments.
+  when_to_use:
+    - Any platform with measurable user accomplishments
+    - Learning, fitness, community participation
+  solution: |
+    Define specific, named achievements with clear criteria.
+    Award badges or icons. Display on user profiles.
+    Mix easy achievements (encouragement) with hard ones (aspiration).
+  avoid_when:
+    - Trivial achievements that devalue the system
+  related_patterns: [CollectibleAchievements, Levels, Praise, leaderboard]
+  tags: [gamification, rewards, recognition]
+
+- id: Praise
+  name: Praise
+  problem: Users don't receive positive reinforcement for completing desired actions.
+  when_to_use:
+    - After completing a task, achieving a milestone
+    - Onboarding steps, form completion
+  solution: |
+    Show encouraging messages: "Great job!", "You're on a roll!"
+    Use appropriate tone for the context. Pair with visual feedback.
+    Vary the praise to prevent it feeling robotic.
+  avoid_when:
+    - Praise would feel patronizing to the audience
+    - Every minor action gets praise (dilutes meaning)
+  related_patterns: [delighters, Achievements, Feedback-loops]
+  tags: [gamification, rewards, feedback]
+
+- id: appointment-dynamic
+  name: Appointment Dynamic
+  problem: Users don't have a reason to return at specific times.
+  when_to_use:
+    - Daily deals, daily challenges
+    - Check-in rewards, limited-time events
+  solution: |
+    Offer rewards available only at specific times or intervals.
+    "Daily bonus available!" with a countdown to next availability.
+    Create habits through consistent scheduling.
+  avoid_when:
+    - Time-gating creates frustration rather than anticipation
+  related_patterns: [periodic-events, Intentional-gaps, Limited-duration]
+  tags: [gamification, rewards, retention]
+
+- id: Prolonged-play
+  name: Prolonged Play
+  problem: Users have short sessions and don't engage deeply enough.
+  when_to_use:
+    - Streaming services, games
+    - Content platforms where longer sessions = more value
+  solution: |
+    Reward longer sessions: "Watch 3 episodes for a bonus."
+    Auto-play next content. Show streaks for continuous activity.
+    Make it easy to continue (remove friction between items).
+  avoid_when:
+    - Encouraging excessive use would be harmful
+  related_patterns: [Carousel, ContinuousScrolling, Variable-rewards]
+  tags: [gamification, rewards, engagement]
+
+# ═══════════════════════════════════════
+# PERSUASIVE > Perception and memory > Attention
+# ═══════════════════════════════════════
+
+- id: Tunnelling
+  name: Tunnelling
+  problem: Users get distracted during critical processes and don't complete them.
+  when_to_use:
+    - Checkout flows, onboarding wizards
+    - Any multi-step process where abandonment is costly
+  solution: |
+    Remove navigation, sidebars, and distractions during the critical flow.
+    Show only what's needed for the current step.
+    Minimize exit points. Progress bar shows commitment already made.
+  avoid_when:
+    - Users need to reference other information to complete the process
+  related_patterns: [Wizard, modal-windows, Reduction]
+  tags: [persuasion, attention, focus]
+
+- id: Reduction
+  name: Reduction
+  problem: Complex tasks with many steps have high abandonment rates.
+  when_to_use:
+    - Signup flows, checkout
+    - Any task you want maximum completion on
+  solution: |
+    Remove every unnecessary step. Pre-fill what you can.
+    Combine steps where possible. Eliminate optional fields.
+    One-click actions beat multi-step flows.
+  avoid_when:
+    - Steps serve important purposes (legal, confirmation)
+  related_patterns: [GoodDefaults, Tunnelling, Limited-choice]
+  tags: [persuasion, attention, simplification]
+
+- id: isolation-effect
+  name: Isolation Effect (Von Restorff)
+  problem: Everything looks the same and nothing stands out as important.
+  when_to_use:
+    - CTAs that need to stand out
+    - Key features, recommended options
+  solution: |
+    Make the important element visually distinct: different color, size, or style.
+    Only isolate one or two elements — if everything is highlighted, nothing is.
+  avoid_when:
+    - Multiple items are equally important
+  related_patterns: [Anchoring, framing, cards]
+  tags: [persuasion, attention, visual]
+
+- id: picture-superiority-effect
+  name: Picture Superiority Effect
+  problem: Text-heavy content is harder to remember and less engaging.
+  when_to_use:
+    - Landing pages, tutorials, onboarding
+    - Data presentation, product descriptions
+  solution: |
+    Use images, icons, and illustrations alongside text.
+    Replace text with visuals where possible.
+    People remember 65% of visual information vs 10% of text after 3 days.
+  avoid_when:
+    - Images would be decoration without information value
+  related_patterns: [Thumbnail, cards, Conceptual-metaphor]
+  tags: [persuasion, attention, visual]
+
+- id: zeigarnik-effect
+  name: Zeigarnik Effect
+  problem: Completed tasks are quickly forgotten, but incomplete ones linger in memory.
+  when_to_use:
+    - Progress indicators that show incomplete status
+    - Onboarding checklists, profile completion
+  solution: |
+    Show users what's incomplete to keep them engaged.
+    "You're 60% done — just 3 more steps!" The open loop drives return visits.
+    Combine with notifications about unfinished tasks.
+  avoid_when:
+    - Constant reminders about incompleteness would annoy users
+  related_patterns: [CompletenessMeter, Need-for-closure, set-completion]
+  tags: [persuasion, attention, retention]
+
+# ═══════════════════════════════════════
+# PERSUASIVE > Perception and memory > Comprehension
+# ═══════════════════════════════════════
+
+- id: Chunking
+  name: Chunking
+  problem: Large amounts of information overwhelm working memory (7±2 items).
+  when_to_use:
+    - Long forms, phone numbers, data displays
+    - Navigation menus, feature lists
+  solution: |
+    Group related items into chunks of 3-5. Use visual separators.
+    "123-456-7890" is easier than "1234567890."
+    Organize settings into categories, steps into groups.
+  avoid_when:
+    - Information is already naturally chunked
+  related_patterns: [ProgressiveDisclosure, categorization, Wizard]
+  tags: [persuasion, comprehension, organization]
+
+- id: Anchoring
+  name: Anchoring
+  problem: Users need a reference point to evaluate whether a price or value is reasonable.
+  when_to_use:
+    - Pricing pages (show original price crossed out)
+    - Feature comparison, upgrade prompts
+  solution: |
+    Present a high reference point first, making subsequent options seem reasonable.
+    "Was $100, now $69." Show the premium plan first, then the standard plan looks affordable.
+  avoid_when:
+    - The anchor would feel dishonest
+  related_patterns: [PricingTable, decoy-effect, framing]
+  tags: [persuasion, comprehension, pricing]
+
+- id: Serial-positioning-effect
+  name: Serial Positioning Effect
+  problem: In a list, users remember the first and last items best, forgetting the middle.
+  when_to_use:
+    - Menu ordering, feature lists
+    - Navigation item arrangement
+  solution: |
+    Place the most important items at the beginning and end of lists.
+    Put the most popular or profitable option first. End with a strong CTA.
+    The middle is for less critical items.
+  avoid_when:
+    - List order is determined by other factors (alphabetical, chronological)
+  related_patterns: [Peakend-rule, Limited-choice, NavigationTabs]
+  tags: [persuasion, comprehension, layout]
+
+- id: Recognition-over-recall
+  name: Recognition over Recall
+  problem: Users struggle to remember exact terms, paths, or options from memory.
+  when_to_use:
+    - Navigation, search interfaces
+    - Form fields with known options
+  solution: |
+    Show options for users to recognize rather than requiring them to recall.
+    Use dropdowns, suggestion lists, visual menus, and recent items.
+    "Pick from these" > "Type what you remember."
+  avoid_when:
+    - The option space is too large for browsing
+  related_patterns: [Autocomplete, ShortcutDropdown, favorites]
+  tags: [persuasion, comprehension, usability]
+
+- id: Pattern-recognition
+  name: Pattern Recognition
+  problem: Users waste time relearning interfaces that don't follow familiar conventions.
+  when_to_use:
+    - All interface design
+    - Especially for common actions (search, settings, navigation)
+  solution: |
+    Follow established UI conventions: magnifying glass for search, gear for settings.
+    Use consistent patterns within your app. Match platform expectations.
+    Innovation in patterns needs strong justification.
+  avoid_when:
+    - You have data showing a novel pattern significantly outperforms convention
+  related_patterns: [Recognition-over-recall, Conceptual-metaphor, HomeLink]
+  tags: [persuasion, comprehension, consistency]
+
+- id: Conceptual-metaphor
+  name: Conceptual Metaphor
+  problem: Abstract concepts are hard for users to understand without familiar reference points.
+  when_to_use:
+    - Explaining new features or concepts
+    - Icons, terminology, onboarding
+  solution: |
+    Map abstract concepts to real-world metaphors users already understand.
+    Desktop, folders, trash can, shopping cart, bookmarks.
+    Ensure the metaphor doesn't break when extended too far.
+  avoid_when:
+    - The metaphor is misleading about how the feature actually works
+  related_patterns: [Pattern-recognition, picture-superiority-effect, Storytelling]
+  tags: [persuasion, comprehension, communication]
+
+- id: Sequencing
+  name: Sequencing
+  problem: The order in which information or steps are presented affects comprehension and outcomes.
+  when_to_use:
+    - Onboarding flows, tutorials
+    - Pricing page layout, form field ordering
+  solution: |
+    Order information from most to least important (inverted pyramid).
+    In forms, start with easy fields to build momentum.
+    In pricing, show the plan you want users to choose first.
+  avoid_when:
+    - Natural order (chronological, alphabetical) makes more sense
+  related_patterns: [Serial-positioning-effect, Wizard, framing]
+  tags: [persuasion, comprehension, flow]
+
+# ═══════════════════════════════════════
+# PERSUASIVE > Feedback > Timing
+# ═══════════════════════════════════════
+
+- id: Kairos
+  name: Kairos
+  problem: Messages delivered at the wrong time are ignored or cause annoyance.
+  when_to_use:
+    - Push notifications, upgrade prompts
+    - Feature suggestions, tips
+  solution: |
+    Deliver messages at the moment of maximum receptivity.
+    Suggest upgrade after user hits a limit. Show tips when user struggles.
+    After a success, suggest sharing. Timing is everything.
+  avoid_when:
+    - You can't reliably detect the right moment
+  related_patterns: [Trigger, notifications, Tailoring]
+  tags: [persuasion, feedback, timing]
+
+- id: Feedback-loops
+  name: Feedback Loops
+  problem: Users can't see the consequences of their actions, so they don't learn or adjust.
+  when_to_use:
+    - Activity tracking, spending dashboards
+    - Any behavior change application
+  solution: |
+    Show users clear, timely data about their actions and outcomes.
+    "You've used 80% of your budget." "Your response time improved by 15%."
+    Make feedback immediate when possible.
+  avoid_when:
+    - Metrics would create unhealthy obsession
+  related_patterns: [self-monitoring, InputFeedback, dashboard]
+  tags: [persuasion, feedback, learning]
+
+- id: Tailoring
+  name: Tailoring
+  problem: Generic one-size-fits-all content is less relevant and persuasive.
+  when_to_use:
+    - Email campaigns, product recommendations
+    - Content feeds, onboarding flows
+  solution: |
+    Personalize content based on user behavior, preferences, demographics, or stage.
+    "Recommended for you" based on past activity.
+    Segment users and tailor messaging to each segment.
+  avoid_when:
+    - Personalization data is insufficient and guesses would feel wrong
+  related_patterns: [GoodDefaults, Kairos, Trigger]
+  tags: [persuasion, feedback, personalization]
+
+- id: Trigger
+  name: Trigger
+  problem: Users forget to take action even when motivated, because they lack a prompt.
+  when_to_use:
+    - Habit formation, task reminders
+    - Re-engagement, action prompts
+  solution: |
+    Send a prompt (notification, email, in-app message) at the right time.
+    Make the desired action easy to take from the trigger itself.
+    Combine with motivation and ability — trigger alone isn't enough.
+  avoid_when:
+    - Users have explicitly opted out of reminders
+  related_patterns: [Kairos, notifications, Feedback-loops]
+  tags: [persuasion, feedback, activation]
+
+- id: Simulation
+  name: Simulation
+  problem: Users can't predict the outcome of their choices, leading to decision paralysis.
+  when_to_use:
+    - Financial calculators, configuration previews
+    - "What if" scenarios, plan comparisons
+  solution: |
+    Let users simulate outcomes before committing.
+    "If you save $200/month, you'll have $12,000 in 5 years."
+    Interactive sliders, before/after comparisons.
+  avoid_when:
+    - Simulation results are unreliable or misleading
+  related_patterns: [LivePreview, Feedback-loops, framing]
+  tags: [persuasion, feedback, preview]
+
+- id: fresh-start-effect
+  name: Fresh Start Effect
+  problem: Users want to start new behaviors but feel weighed down by past performance.
+  when_to_use:
+    - New Year, Monday, first of the month
+    - After a milestone or life event
+    - Re-engagement campaigns
+  solution: |
+    Offer "fresh start" moments: reset streaks, new challenges, clean dashboard.
+    Time campaigns around natural fresh starts (new year, new month).
+    "Start fresh this week" messaging.
+  avoid_when:
+    - Erasing past progress would be demotivating
+  related_patterns: [Kairos, inaction-inertia-effect, Trigger]
+  tags: [persuasion, feedback, timing]
+
+# ═══════════════════════════════════════
+# PERSUASIVE > Social
+# ═══════════════════════════════════════
+
+- id: Authority
+  name: Authority
+  problem: Users are uncertain and need guidance from a trusted expert source.
+  when_to_use:
+    - Product endorsements, expert reviews
+    - Medical, legal, financial information
+  solution: |
+    Feature endorsements from recognized experts or institutions.
+    Show credentials, certifications, and awards. Use expert quotes.
+    "Recommended by doctors" or "As featured in [publication]."
+  avoid_when:
+    - Authority claims can't be verified
+  related_patterns: [Social-proof, testimonials, reputation]
+  tags: [persuasion, social, trust]
+
+- id: Liking
+  name: Liking
+  problem: Users are less persuaded by brands or interfaces they don't feel connected to.
+  when_to_use:
+    - Brand voice, copywriting
+    - Team pages, about sections
+  solution: |
+    Show the human side: team photos, founder stories, friendly tone.
+    Use humor appropriately. Mirror the user's language and style.
+    People buy from people (and brands) they like.
+  avoid_when:
+    - Forced friendliness that feels inauthentic
+  related_patterns: [Authority, halo-effect, nostalgia-effect]
+  tags: [persuasion, social, affinity]
+
+- id: revenge
+  name: Revenge
+  problem: Users who feel wronged may retaliate, even at cost to themselves.
+  when_to_use:
+    - Designing moderation and dispute resolution systems
+    - Understanding user behavior after negative experiences
+  solution: |
+    Provide legitimate channels for grievances (support, dispute resolution).
+    Acknowledge unfairness quickly. Offer compensation for mistakes.
+    Prevent situations that trigger a desire for revenge.
+  avoid_when:
+    - Leveraging this for manipulative purposes
+  related_patterns: [Negativity-bias, flagging-and-reporting, Reciprocation]
+  tags: [persuasion, social, behavior]
+
+- id: Roleplaying
+  name: Roleplaying
+  problem: Users engage more deeply when they adopt a persona or role.
+  when_to_use:
+    - Games, learning simulations
+    - Community forums with roles (mentor, expert)
+  solution: |
+    Assign or let users choose roles with specific behaviors and privileges.
+    "As a mentor, you can..." Roles create identity and responsibility.
+  avoid_when:
+    - Roles would feel forced or childish for the audience
+  related_patterns: [Self-expression, Status, Powers]
+  tags: [persuasion, social, identity]
+
+- id: Self-expression
+  name: Self-Expression
+  problem: Users want to showcase their individuality within the platform.
+  when_to_use:
+    - Profile customization, avatar creation
+    - User-generated content, status updates
+  solution: |
+    Allow customizable profiles: avatars, bios, themes, display names.
+    Support user-generated content creation and sharing.
+    Provide unique display options (badges, borders, colors).
+  avoid_when:
+    - Anonymity is important for the use case
+  related_patterns: [ikea-effect, Roleplaying, Status]
+  tags: [persuasion, social, identity]
+
+- id: Reciprocation
+  name: Reciprocation
+  problem: Users feel obligated to give back when they receive something.
+  when_to_use:
+    - Free trials, free content
+    - Help and support, gifts
+  solution: |
+    Give value first: free trial, helpful content, a free tool.
+    After providing value, ask for something in return (signup, review, referral).
+    The give must feel genuine, not transactional.
+  avoid_when:
+    - The "gift" feels like a bait-and-switch
+  related_patterns: [invite-friends, testimonials, Commitment-consistency]
+  tags: [persuasion, social, obligation]
+
+- id: Social-proof
+  name: Social Proof
+  problem: Users are uncertain whether a product or action is the right choice.
+  when_to_use:
+    - Landing pages, product pages, signup flows
+    - Any conversion-critical page
+  solution: |
+    Show numbers: "10,000+ users", "4.8 stars from 2,000 reviews."
+    Display logos of well-known customers. Show real-time activity.
+    "Sarah from NYC just purchased..."
+  avoid_when:
+    - Numbers are too low to be impressive
+    - Social proof is fabricated
+  related_patterns: [testimonials, Authority, RateContent]
+  tags: [persuasion, social, validation]
+
+- id: cognitive-dissonance
+  name: Cognitive Dissonance
+  problem: When users' actions don't align with their beliefs, they experience discomfort and seek to resolve it.
+  when_to_use:
+    - After micro-commitments (started a trial, liked a product)
+    - Persuasion sequences
+  solution: |
+    Get small commitments first (free signup, follow, bookmark).
+    Users who've committed small will align their beliefs to match.
+    Then offer bigger commitments that align with the identity they've started to adopt.
+  avoid_when:
+    - Exploiting this to extract commitments users don't actually want
+  related_patterns: [Commitment-consistency, Reciprocation, sunk-cost-effect]
+  tags: [persuasion, social, consistency]
+
+- id: Positive-mimicry
+  name: Positive Mimicry
+  problem: Users adopt behaviors they see successful peers performing.
+  when_to_use:
+    - Social features, leaderboards
+    - User stories, case studies
+  solution: |
+    Show what successful users are doing. "Top sellers do X."
+    Feature user success stories. Make desired behaviors visible in the community.
+  avoid_when:
+    - Mimicry would lead to harmful behavior
+  related_patterns: [Social-proof, leaderboard, testimonials]
+  tags: [persuasion, social, imitation]
+
+- id: Commitment-consistency
+  name: Commitment and Consistency
+  problem: Users are more likely to follow through on big asks if they've already made small commitments.
+  when_to_use:
+    - Sales funnels, onboarding
+    - Surveys, pledge campaigns
+  solution: |
+    Start with small, easy commitments: "Do you agree this is important?" → sign up → buy.
+    Each step builds on the previous commitment.
+    Make commitments public for stronger effect.
+  avoid_when:
+    - Manipulating users into commitments they don't genuinely want
+  related_patterns: [cognitive-dissonance, Reciprocation, sunk-cost-effect]
+  tags: [persuasion, social, conversion]
+
+- id: reputation
+  name: Reputation
+  problem: Without accountability, users may behave poorly in online communities.
+  when_to_use:
+    - Forums, marketplaces, review sites
+    - Any platform with user interactions
+  solution: |
+    Show user reputation scores based on community feedback.
+    Tie privileges to reputation level. Make reputation visible on profiles.
+    Allow building reputation through positive contributions.
+  avoid_when:
+    - Reputation system can be easily gamed
+  related_patterns: [leaderboard, CollectibleAchievements, Authority, Social-proof]
+  tags: [persuasion, social, accountability]
+
+- id: halo-effect
+  name: Halo Effect
+  problem: One positive trait influences perception of everything else about a product or person.
+  when_to_use:
+    - First impressions, landing pages
+    - Product quality perception, brand building
+  solution: |
+    Invest in the first thing users see — it colors everything else.
+    Beautiful design, fast load time, polished onboarding.
+    Associate with respected brands or people.
+  avoid_when:
+    - Quality doesn't back up the first impression
+  related_patterns: [Value-attribution, Authority, Liking]
+  tags: [persuasion, social, perception]
+
+- id: nostalgia-effect
+  name: Nostalgia Effect
+  problem: Users have positive emotional associations with familiar past experiences.
+  when_to_use:
+    - Year-in-review features, throwback content
+    - Retro design elements, anniversary campaigns
+  solution: |
+    Reference shared cultural touchpoints. Show users their own history ("On this day").
+    Use familiar visual styles or sounds that evoke positive memories.
+  avoid_when:
+    - Nostalgia would feel manipulative or out of place
+  related_patterns: [Peakend-rule, Liking, Self-expression]
+  tags: [persuasion, social, emotion]
+
+- id: Competition
+  name: Competition
+  problem: Users need external motivation to perform better or engage more.
+  when_to_use:
+    - Fitness challenges, sales contests
+    - Learning platforms, community engagement
+  solution: |
+    Create competitions with leaderboards, rankings, and prizes.
+    Support both individual and team competitions.
+    Make participation optional. Recognize multiple winners (categories).
+  avoid_when:
+    - Competition would discourage or alienate weaker participants
+    - Collaboration would produce better outcomes
+  related_patterns: [leaderboard, Achievements, Status, Levels]
+  tags: [persuasion, social, motivation]
+
+- id: autonomy
+  name: Autonomy
+  problem: Users lose motivation when they feel forced into specific actions.
+  when_to_use:
+    - Settings, preferences, content selection
+    - Any interaction where user choice is possible
+  solution: |
+    Give users meaningful choices. "Choose your path." "Customize your experience."
+    Even small choices increase ownership and motivation.
+    Avoid language that feels controlling. Use "You can" not "You must."
+  avoid_when:
+    - Too many choices cause decision fatigue
+  related_patterns: [Illusion-of-control, settings, Self-expression]
+  tags: [persuasion, social, empowerment]
+
+- id: Status
+  name: Status
+  problem: Users want visible markers of their achievements and importance within a community.
+  when_to_use:
+    - Community platforms, loyalty programs
+    - Premium tiers, professional networks
+  solution: |
+    Provide visible status indicators: badges, titles, colored usernames, special icons.
+    Create a status hierarchy (Bronze → Silver → Gold → Platinum).
+    Make status achievable through contribution, not just payment.
+  avoid_when:
+    - Status hierarchy would create a toxic community dynamic
+  related_patterns: [Levels, leaderboard, reputation, CollectibleAchievements]
+  tags: [persuasion, social, hierarchy]
+
+- id: noble-edge-effect
+  name: Noble Edge Effect
+  problem: Users prefer brands that stand for something beyond profit.
+  when_to_use:
+    - Brand positioning, about pages
+    - Cause-related marketing
+  solution: |
+    Authentically align with a social cause. Donate a portion of profits.
+    Be transparent about impact. "1% for the planet" or "Buy one, give one."
+    The cause must be genuine — users detect performative activism.
+  avoid_when:
+    - Cause alignment is superficial or contradicted by company practices
+  related_patterns: [Authority, Liking, Social-proof]
+  tags: [persuasion, social, values]
