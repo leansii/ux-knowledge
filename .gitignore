@@ -2,3 +2,5 @@
 *.swp
 *.swo
 *~
+collector/output/
+__pycache__/

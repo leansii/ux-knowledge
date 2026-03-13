@@ -22,6 +22,7 @@ claude/                      # Claude Code integration guide
 gemini/                      # Gemini integration guide
 cursor/                      # Cursor/Windsurf/IDE integration guide
 .claude/skills/ux-patterns/  # Ready-to-use Claude Code skill
+collector/                   # Scraper to collect raw data from ui-patterns.com
 ```
 
 ## Quick Start
@@ -45,6 +46,18 @@ See `gemini/README.md` for AI Studio and API integration.
 1. **Match** — scan the index to find patterns relevant to your task
 2. **Recommend** — read full details, check applicability and constraints
 3. **Implement** — apply pattern solutions, combine complementary patterns
+
+## Collector
+
+Scrape raw pattern data from the source:
+
+```bash
+cd collector
+uv run collect.py           # Collect all 170 patterns
+uv run collect.py --dry-run # Preview without fetching
+```
+
+See `collector/README.md` for full options.
 
 ## Pattern Sources
 
